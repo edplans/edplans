@@ -1,0 +1,9 @@
+%ul.nav
+  %li.dropdown
+    = link_to "Users", '#', :class => 'dropdown-toggle', :data => { :toggle => 'dropdown' }
+    %ul.dropdown-menu
+      %li= link_to "Manage Users", users_path
+      %li= link_to "List Schools", admin_schools_path
+      %li= link_to "Invite First Planner at New School", new_school_invitation_path
+      %li= link_to "Invite New Administrator", new_invitation_path(:role => 'admin')
+      %li= link_to "Lesson Plan Activity", admin_lesson_plans_path

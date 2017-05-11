@@ -1,0 +1,24 @@
+.row
+  .span6.offset3
+    %h3 New Subject-Specific Plan
+
+    = form_tag subject_domain_report_path, :method => :get, :class => 'form form-horizontal' do
+
+      = render :partial => 'reports/school_years', :locals => { :school_years => @school.school_years }
+
+      .control-group
+        = label_tag "report[subject_id]", "Subject", :class => 'control-label'
+        .controls= select_tag "report[subject_id]", options_for_select(@school.subjects_taught.map { |s| [s.name, s.id] })
+
+      .control-group
+        = label_tag "report[include_units]", "Show", :class => 'control-label'
+        .controls= select_tag "report[include_units]", options_for_select([["Domains and Topics", true], ["Domains Only", false]])
+
+      .control-group
+        = label_tag "report[style]", "Style", :class => 'control-label'
+        .controls= select_tag "report[style]", options_for_select({"Timeline (Web Only)" => "Timeline", "Table" => "Table"})
+
+      = render :partial => 'reports/format_choice'
+
+      .control-group
+        .controls= submit_tag "Prepare"

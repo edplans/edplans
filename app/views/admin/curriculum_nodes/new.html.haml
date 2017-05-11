@@ -1,0 +1,25 @@
+.row
+  .span10.offset2
+    = form_for @curriculum_node, :url => curriculum_nodes_path, :class => 'form' do |f|
+
+      %fieldset
+        %legend= "New #{ @curriculum_node.level_name }"
+
+        - if @curriculum_node.ancestry.present?
+          = f.hidden_field :ancestry, :value => @curriculum_node.ancestry
+
+        .controls
+          = f.label :name
+          .control-group= f.text_field :name
+
+        .controls
+          = f.label :notes
+          .control-group= f.text_area :notes, :class => 'wysiwyg', :cols => 70
+
+        .controls
+          .control-group
+            = f.submit "Save", :class => 'btn btn-primary'
+            - if @parent_node
+              = link_to "Cancel", curriculum_node_path(@parent_node), :class => 'btn btn-cancel'
+            - else
+              = link_to "Cancel", curriculum_path, :class => 'btn btn-cancel'

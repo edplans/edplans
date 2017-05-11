@@ -1,0 +1,6 @@
+%li.hide
+  %i.icon-folder-close
+  = link_to curriculum_node.name, '#', :class => 'curriculum-node knowledge-connection', :data => { 'knowledge-id' => curriculum_node.id, 'knowledge-type' => 'CurriculumNode' }
+  %ul.unstyled{:class => "indent#{ (curriculum_node.depth + 1) * 5 }"}
+    = render :partial => 'curriculum_node', :collection => curriculum_node.children.order('position asc')
+    = render :partial => 'guideline', :collection => curriculum_node.guidelines.common

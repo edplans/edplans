@@ -1,0 +1,99 @@
+.row
+  .span12
+    %ul.breadcrumb
+      - for ancestor in @guideline.curriculum_node.ancestors.all.sort_by(&:depth)
+        %li= link_to ancestor.name, curriculum_node_path(ancestor)
+        = "/"
+      %li= link_to @guideline.curriculum_node.name, curriculum_node_path(@guideline.curriculum_node)
+      = "|"
+      %li
+        = @guideline.abbreviated_text.html_safe
+        %a{:href => edit_guideline_path(@guideline)}
+          %i.icon-pencil
+.row
+  .span3.well
+    %h3 Curriculum Browser
+    %ul.curriculum.curriculum-source.unstyled.tree-browser
+      - for subject in @subjects
+        %li{:class => ('ela' if subject.name == 'Language Arts')}
+          %i.icon-folder-close
+          = link_to subject.name, "#", :class => 'curriculum-node'
+          %ul.unstyled.indent5= render :partial => 'curriculum_node', :collection => subject.children.order('position asc')
+
+  .span8
+    
+    %h4= @guideline.name.inspect.html_safe
+
+    %h3
+      Knowledge Connections
+
+    %table.table.table-bordered
+      %tr
+        %th Prior Knowledge
+        %th Future Knowledge
+        %th Cross Curricular Links
+
+      %tr
+        %td.knowledge-connections#prior-knowledge
+          %ul
+        %td.knowledge-connections#future-knowledge
+          %ul
+        %td.knowledge-connections#cross-curricular
+          %ul
+
+    %h3
+      Domains
+      
+    %table.table.table-bordered
+      %tr
+        %th Available Domains
+        %th Associated Domains
+      %tr
+        %td
+          %ul
+            - for domain in Domain.common.for_grade(@guideline.grade)
+              %li.domain{:data => { :domain_id => domain.id }}= domain.name
+        %td#domain-applications
+          %ul
+
+    %h3
+      Standards
+    
+    %table.table.table-bordered
+      %tr
+        %th Available Standards
+        %th Associated Standards
+      %tr
+        %td
+
+          %ul.curriculum.standards-browser.unstyled.tree-browser
+            - for subject in Standard.subjects_for_grade(@guideline.grade)
+              %li
+                %i.icon-folder-close
+                = link_to subject, '#', :class => 'standard-subject'
+                %ul.indent5.unstyled
+                  = render :partial => 'my_school/domain_maps/standard', :collection => Standard.common.for_grade(@guideline.grade).for_subject(subject)
+        %td#standard-applications
+          %ul
+
+    %h3 Sub-Guidelines
+    
+    %table.table.tabel-bordered
+      %tr
+        %th Text
+        %th Actions
+      = render :partial => 'sub_guideline', :collection => @guideline.sub_guidelines
+      = form_for SubGuideline.new, :url => guideline_sub_guidelines_path(@guideline) do |f|
+        %tr
+          %td= f.text_field :name, :placeholder => "Text"
+          %td= f.submit "Add New", :class => 'btn btn-primary'
+
+.row
+  .span3.offset9
+    %p= link_to "<< #{ @guideline.curriculum_node.name }", @guideline.curriculum_node
+
+= content_for :extra_head do
+  = javascript_tag "window.guidelineId = #{ @guideline.id };"
+  = javascript_tag "window.initialKnowledgeConnections = #{ @guideline.knowledge_connections.to_json };"
+  = javascript_tag "window.initialDomainApplications = #{ @guideline.domain_applications.to_json(:methods => [ :id, :domain_name ]) };"
+  = javascript_tag "window.initialStandardApplications = #{ @guideline.standard_applications.to_json(:methods => [ :id, :standard_text, :standard_short_text, :standard_ck_code, :standard_id ]) };"

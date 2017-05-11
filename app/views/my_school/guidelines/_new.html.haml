@@ -1,0 +1,22 @@
+.modal.hide.span10#new-custom-guideline
+  .modal-header
+    %a.close{'data-dismiss' => 'modal'} ×
+    %h3 New Guideline
+
+  = form_for Guideline.new, :url => custom_guidelines_path, :html => { :class => 'form form-horizontal' } do |f|
+
+    .modal-body
+
+      = f.hidden_field :curriculum_node_id
+
+      .control-group
+        = f.label :name, "Guideline", :class => 'control-label'
+        .controls= f.text_field :name
+
+      .control-group
+        = f.label :notes, :class => 'control-label'
+        .controls= f.text_area :notes, :rows => 5, :class => 'wysiwyg'
+
+    .modal-footer
+
+      = f.submit 'Create', :class => 'btn btn-primary'

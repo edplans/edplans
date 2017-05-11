@@ -1,0 +1,2 @@
+module ScheduledDomainsHelper
+end

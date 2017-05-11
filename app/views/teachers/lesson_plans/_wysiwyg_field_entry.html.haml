@@ -1,0 +1,9 @@
+.control-group
+  - if help_block_text_for(field_name)
+    = f.label field_name, LessonPlan.label_text_for(field_name), :class => 'control-label', :rel => :popover, :data => { :title => LessonPlan.label_text_for(field_name), :content => help_block_text_for(field_name), :placement => 'top' }
+  - else
+    = f.label field_name, LessonPlan.label_text_for(field_name), :class => 'control-label'
+  .controls
+    - if placeholder_text_for(field_name) && enable_help_block_for(field_name)
+      %p.help-block.hide= placeholder_text_for(field_name)
+    = f.text_area field_name, :class => 'wysiwyg', :placeholder => placeholder_text_for(field_name)

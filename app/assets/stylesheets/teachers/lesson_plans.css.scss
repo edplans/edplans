@@ -1,0 +1,43 @@
+textarea.wysiwyg {
+  width: 450px;
+  height: 100px;
+}
+
+form.check_sub_guideline {
+  input, label {
+    display: inline;
+    margin-bottom: 5px;
+  }
+}
+
+dl.lesson-plan-details {
+  div { 
+    vertical-align: top;
+    display: inline-block; 
+    margin-right: 15px;
+  }
+}
+
+form.lesson-plan {
+  margin-bottom: 100px;
+  p.help-block {
+    width: 450px;
+    padding: 5px;
+    background-color: $ckRed + #333;
+    color: white;
+    border: 1px dashed white;
+    margin-bottom: 20px;
+  }
+}
+
+p.public-notes { display: none; }
+
+a.collapse-guidelines { float: right; margin-right: 25px; }
+
+#content-guidelines, #skills-guidelines {
+  table { width: 80% }
+}
+
+h3.label { width: 250px; }
+
+label#lesson_plan_shared { width: 250px; text-align: center; }

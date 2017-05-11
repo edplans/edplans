@@ -1,0 +1,29 @@
+.row
+  .span12
+    %ul.breadcrumb
+      - for ancestor in @guideline.curriculum_node.ancestors.all.sort_by(&:depth)
+        %li= link_to ancestor.name, public_curriculum_node_path(ancestor)
+        = "/"
+      %li= link_to @guideline.curriculum_node.name, public_curriculum_node_path(@guideline.curriculum_node)
+      = "|"
+      %li
+        = @guideline.abbreviated_text
+.row
+  .span12
+    %h4= @guideline.name.html_safe
+
+- unless @guideline.sub_guidelines.empty?
+
+  .row
+    .span12
+
+      %h3
+        Sub-Guidelines
+
+      %ul
+        - for sub_guideline in @guideline.sub_guidelines
+          %li= sub_guideline.name.html_safe
+
+.row
+  .span3.offset9
+    %p= link_to "<< #{ @guideline.curriculum_node.name }", public_curriculum_node_path(@guideline.curriculum_node)

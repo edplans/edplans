@@ -1,0 +1,5 @@
+<i class="<%= if @connection_type == 'CurriculumNode' then 'icon-folder-close' else 'icon-bookmark' %>" /> 
+<a href="/curriculum/<%= if @connection_type == 'Guideline' then 'guidelines/' else '' %><%= @connection_id %>"><%- @name %></a>
+<% if @cross_knowledge_id: %>
+  <a href="/my_school/domain_maps/<%= window.domain_id %>/school_years/<%= window.schoolYearId %>/toggle_cross_curricular_link/<%= @id %>" class="toggle-cross-curricular-link" title="Toggle Inclusion">&times;</a>
+<% end %>

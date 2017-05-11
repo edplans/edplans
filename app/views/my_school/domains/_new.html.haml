@@ -1,0 +1,113 @@
+.modal.hide.fade#newCustomDomain{:style => 'min-height: 450px; width: 700px;'}
+  .modal-header{:style => 'width: 680px;'}
+    %a.close{'data-dismiss' => 'modal'} ×
+    %h3 Background
+
+  .modal-body{:style => 'min-height: 375px; width: 680px;'}
+
+    .span8
+      %p
+        The implementation of Core Knowledge is intended to be domain-based whenever possible. Grounding one's instruction in a Domain, or an area of knowledge, has many benefits including rich opportunities for cross-curricular connections, the coherent building of content/skill within and across grade-levels, and greater student success with the vocabulary and language associated with the domain.
+
+      %p
+        It is highly recommended that teachers use Interdisciplinary Domains to implement the Core Knowledge Sequence and add their units within the framework of Domains.
+
+    .span4
+      %h4 Interdisciplinary Domain
+
+      %p
+        This knowledge area can be explored in various academic subjects.
+
+      %p
+        Example: Architecture can be studied in History, Art, and Science.
+
+      %p
+        An Interdisciplinary Domain encourages teachers of different subjects to cooperate as they teach this area.
+
+      %p= link_to "New Domain", "#new-interdisciplinary-domain", :class => "btn btn-primary continue-new-domain"
+
+    .span4
+      %h4 Course Topic
+
+      %p
+        These topics sub-divide a course into the sections you prefer. They apply to just one subject.
+
+      %p
+        Example of four Topics: Math Qtr 1; Math Qtr 2; Math Qtr 3; Math Qtr 4.
+
+      %p
+        Example of two Topics: Discovering the Mississippi; Crossing the Rockies.
+
+      %p= link_to "New Topic", "#new-course-unit", :class => "btn btn-primary continue-new-domain"
+
+
+.modal.hide.fade#new-interdisciplinary-domain
+  .modal-header
+    %a{:class => 'close', 'data-dismiss' => 'modal'} ×
+    %h3 Interdisciplinary Domain
+
+  = form_for @school.custom_domains.new, :url => custom_domains_path, :html => { :class => 'form-horizontal' } do |f|
+    .modal-body
+
+      .control-group
+        = f.label :name, "Name", :class => 'control-label'
+        .controls
+          = f.text_field :name
+
+      .control-group
+        = f.label :grade, "Grade", :class => 'control-label'
+        .controls
+          = f.select :grade, @school.grades, :disabled => true
+
+      .control-group
+        = f.label :days, "Days", :class => 'control-label'
+        .controls
+          = f.text_field :days, :size => 2, :maxlength => 2
+
+      = f.hidden_field :tag, :value => "Interdisciplinary"
+
+      %p
+        The new Domain will appear in the menu to the left of the Timeline. Drag the new Domain from the menu into a subject on the Timeline, where it will be displayed in a Blue banner. Drag it again to use the new Domain in a second subject.
+
+      .modal-footer
+
+        .control-group
+          .controls= f.submit "Create", :class => 'btn btn-primary'
+
+.modal.hide.fade#new-course-unit
+  .modal-header
+    %a{:class => 'close', 'data-dismiss' => 'modal'} ×
+    %h3 Course Topic
+
+  = form_for @school.custom_domains.new, :url => custom_domains_path, :html => { :class => 'form-horizontal' } do |f|
+    .modal-body
+
+      .control-group
+        = f.label :name, "Name", :class => 'control-label'
+        .controls
+          = f.text_field :name
+
+      .control-group
+        = f.label :grade, "Grade", :class => 'control-label'
+        .controls
+          = f.select :grade, @school.grades, :disabled => true
+
+      .control-group
+        = f.label :tag, "Subject", :class => 'control-label'
+        .controls
+          = f.select :tag, @school.custom_domain_tags
+          %p.help-block or new subject
+          = f.text_field :tag, :placeholder => 'e.g. "Science"'
+
+      .control-group
+        = f.label :days, "Days", :class => 'control-label'
+        .controls
+          = f.text_field :days, :size => 2, :maxlength => 2
+
+      %p
+        The new Topic will appear in the menu to the left of the Timeline. Drag the new Topic from the menu into the desired subject on the Timeline, where it will be displayed in a Purple banner. Use it in only one subject.
+
+      .modal-footer
+
+        .control-group
+          .controls= f.submit "Create", :class => 'btn btn-primary'

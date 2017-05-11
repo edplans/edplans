@@ -1,0 +1,4 @@
+.control-group
+  = label_tag "report[school_year_id]", "School Year", :class => 'control-label'
+  .controls= select_tag "report[school_year_id]", options_for_select(school_years.map {|s| [s.name, s.id]})
+

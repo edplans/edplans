@@ -1,0 +1,101 @@
+.row
+  .span12
+    %ul.breadcrumb
+      %li= link_to "School Settings", edit_my_school_path
+      %li= "| School Year: #{ @school_year.name }"
+.row
+  .span5
+    = form_for @school_year, :html => { :class => 'horizontal-form' } do |f|
+      
+      %fieldset
+        %legend
+          %strong= @school_year.name
+      
+        .control-group
+          = f.label :year_start, "School Year", :class => 'control-label'
+          .controls
+
+            %p.help-block First day for students
+
+            .input-append.date{'data-date' => @school_year.start_date, 'data-date-format' => 'mm/dd/yyyy'}
+              = f.text_field :start_date, :size => '16', :value => @school_year.start_date.strftime('%m/%d/%Y'), :class => 'span2'
+              %span.add-on
+                %i.icon-th
+
+            %p.help-block Last day for students
+
+            .input-append.date{'data-date' => @school_year.end_date, 'data-date-format' => 'mm/dd/yyyy'}
+              = f.text_field :end_date, :size => '16', :value => @school_year.end_date.strftime('%m/%d/%Y'), :class => 'span2'
+              %span.add-on
+                %i.icon-th
+
+        .control-group
+          = f.label :name
+          .controls= f.text_field :name, :placeholder => "E.g. Summer School #{ Date.today.year + 1 }", :value => @school_year.name
+
+        .control-group
+          .controls= f.submit "Update", :class => 'btn btn-primary'
+
+  .span5
+    .well
+      %h3= "Instructional Days: #{ @school_year.days_count }"
+
+      %fieldset
+        %legend
+          %strong Holidays and Non-Instructional Days
+
+        %ul.holidays
+
+      %fieldset
+        %legend
+          %strong New Holiday
+
+        = form_for SchoolHoliday.new, :html => { :class => 'form' } do |f|
+          .control-group
+            = f.label :start_date, "Date", :class => 'control-label'
+            .controls
+              .input-append.date{'data-date' => [Date.today, @school.year_start].max.strftime('%m/%d/%Y'), 'data-date-format' => 'mm/dd/yyyy'}
+                = f.text_field :start_date, :size => '16', :value => [Date.today, @school.year_start].max.strftime('%m/%d/%Y'), :class => 'span2'
+                %span.add-on
+                  %i.icon-th
+
+          .control-group
+            = f.label :name, "Name", :class => 'control-label'
+            .controls= f.text_field :name
+
+          .control-group
+            .controls= f.submit "Add", :class => 'btn btn-primary'
+
+    .well
+      %h4= "Copy Teaching Documents Into #{ @school_year.name } (#{ @school_year.days_count } days)"
+
+      %fieldset
+        %legend Copy From This Source
+
+        = form_tag transfer_school_year_path(@school_year), :method => :get do
+          %ul.unstyled
+            - for year in (@school.school_years - [@school_year])
+              %li
+                = radio_button_tag 'from_year_id', year.id, false, :disabled => (year.days_count > @school_year.days_count), :class => 'bumped-up-radio'
+                = "#{ year.name } (#{ year.days_count } days)"
+
+          = submit_tag 'Continue', :class => 'btn btn-primary'
+
+        %fieldset
+          %legend Note
+          
+          %p 
+            If you are unable to select the desired school year in the Copy From This Source list, it is because the source school year is longer than the target school year. The target school year should be the same length or longer than the source school year. (The source school year is temporarily locked to prevent the loss of some of the teaching documents.)
+
+          %p
+            In order to copy a longer school year into this school year:
+
+          %ol
+            %li Temporarily adjust the ending date of the target school year to match the length of the source school year. Click the Continue button.
+            %li Copy the teaching documents into the target school year.
+            %li In the Timeline of the target school year, select some Domains or Topics; adjust their Timeline location or duration (recommended days) to create more unused days at the end of the school year.
+            %li Reset the ending date of the target school year.
+
+= content_for :extra_head do
+  :javascript
+    window.initial_school_holidays = #{ @school_year.school_holidays.to_json };

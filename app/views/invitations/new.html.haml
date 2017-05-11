@@ -1,0 +1,13 @@
+.row
+  .span6.offset3
+    = form_for @user, :url => invitations_path(:role => @role), :html => { :class => 'form-horizontal well' } do |f|
+
+      %fieldset
+        %legend= "Invite New #{ @role.titleize }"
+
+        .control-group
+          = f.label :email, "Email Address", :class => 'control-label'
+          .controls= f.email_field :email
+
+        .control-group
+          .controls= f.submit "Invite", :class => 'btn btn-primary'

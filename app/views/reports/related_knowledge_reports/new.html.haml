@@ -1,0 +1,34 @@
+.row
+  .span6.offset3
+    %h3 New Prior and Future Knowledge Report
+
+    = form_tag related_knowledge_report_path, :method => :get, :class => 'form form-horizontal' do
+
+      .control-group
+        = label_tag "report[grade]", "Grade", :class => 'control-label'
+        .controls= select_tag "report[grade]", options_for_select(@school.grades.map {|g| [School.grade_name_for(g), g]}), :id => 'grade-select'
+
+      .control-group
+        = label_tag "report[domain_id]", "Domain/Topic", :class => 'control-label'
+        .controls= select_tag "report[domain_id]", [], :id => 'domain-select'
+
+      = render :partial => 'reports/format_choice'
+
+      .control-group
+        .controls= submit_tag "Prepare"
+
+:javascript
+  var domainsForGrades = #{ @school.grades.inject({}) { |acc, grade| acc[grade] = Domain.for_grade(grade).for_school_with_common(@school).map { |d| [d.name, d.id] }; acc }.to_json };
+
+  var setDomains = function(grade) {
+    $('#domain-select').html('');
+    _.each(domainsForGrades[grade], function(domain) {
+      $('#domain-select').append("<option value='" + domain[1] + "'>" + domain[0] + "</option>");
+    });
+  };
+
+  setDomains($('#grade-select').val());
+
+  $('#grade-select').change(function() {
+    setDomains($(this).val());
+  });

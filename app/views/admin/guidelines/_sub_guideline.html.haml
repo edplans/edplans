@@ -1,0 +1,6 @@
+%tr
+  %td= sub_guideline.name
+  %td
+    = link_to "Edit", edit_sub_guideline_path(sub_guideline), :class => 'btn'
+    = link_to "Delete", sub_guideline_path(sub_guideline), :class => 'btn btn-danger', :method => :delete
+  

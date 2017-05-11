@@ -1,0 +1,10 @@
+.row
+  .span12
+    %h1= "Available Domains for #{ School.grade_name_for params[:grade] }"
+
+    %table.domains.table.table-bordered
+      %tr
+        %th Domain
+      - for domain in @domains
+        %tr
+          %td= link_to "#{ domain.name } (#{ pluralize(domain.days || 0, "day") })", domain_path(domain, :grade => params[:grade])

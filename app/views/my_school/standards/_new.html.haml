@@ -1,0 +1,26 @@
+.modal.hide.span10#new-custom-standard
+  .modal-header
+    %a.close{'data-dismiss' => 'modal'} ×
+    %h3 New Standard
+
+  = form_for Standard.new, :url => custom_standards_path, :html => { :class => 'form form-horizontal' } do |f|
+
+    .modal-body
+
+      = f.hidden_field :grade, :value => grade
+
+      .control-group
+        = f.label :subject, :class => 'control-label'
+        .controls= f.text_field :subject
+
+      .control-group
+        = f.label :ck_code, "Code (optional)", :class => 'control-label'
+        .controls= f.text_field :ck_code
+
+      .control-group
+        = f.label :text, "Standard", :class => 'control-label'
+        .controls= f.text_area :text, :rows => 5
+
+    .modal-footer
+
+      = f.submit 'Create', :class => 'btn btn-primary'

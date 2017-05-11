@@ -1,0 +1,4 @@
+<a href="/my_school/domain_maps/<%= @domain_id %>/school_years/<%= window.schoolYearId %>"><%= @abbreviated_domain_name %></a>
+<a href="#" class="unschedule-domain hide" title="Unschedule">
+  <i class="icon-trash" />
+</a>

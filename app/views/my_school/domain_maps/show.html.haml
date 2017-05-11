@@ -1,0 +1,178 @@
+.row
+
+  .span3#curriculum-container
+
+    %h3{:rel => 'popover', :data => { :title => "Curriculum", :content => "Plan your school domain by dragging guidelines from the list below into the map at right. Recommended content for this domain is highlighted.", :placement => 'bottom' } }
+      Curriculum
+
+    #tree-browser
+      %ul.curriculum.curriculum-source.unstyled.tree-browser
+        - for subject in @subjects
+          %li{:class => ('ela' if subject.name == 'Language Arts')}
+            %i.icon-folder-close
+            = link_to subject.name, "#", :class => 'curriculum-node'
+            %ul.unstyled.indent5
+              - @curriculum_nodes[subject].sort_by {|k, _| k.position}.each do |child_node, grandchildren|
+                %li.hide{'class' => highlight_if_domain_applicable(child_node, @domain), 'data-curriculum-node-id' => child_node.id}
+                  %i.icon-folder-close
+                  = link_to child_node.name, "#", :class => 'curriculum-node'
+                  %ul.unstyled.indent10
+                    - grandchildren.sort_by {|k, _| k.position}.each do |grandchild_node, great_grandchildren|
+                      %li.hide{'class' => highlight_if_domain_applicable(grandchild_node, @domain), 'data-curriculum-node-id' => grandchild_node.id}
+                        %i.icon-folder-close
+                        = link_to grandchild_node.name, "#", :class => 'curriculum-node'
+                        %ul.unstyled.indent15.guidelines
+                          = render :partial => 'guideline', :collection => grandchild_node.guidelines.for_school(@school).includes(:domain_applications, :standard_applications).order('id asc')
+
+                          %li.hide.new-custom-guideline
+                            %i.icon-file
+                            = link_to "Create New", "#new-custom-guideline", :data => { :toggle => 'modal', :curriculum_node_id => grandchild_node.id }, :class => 'new-custom-guideline'
+
+                  %ul.unstyled.indent10.guidelines
+                    = render :partial => 'guideline', :collection => child_node.guidelines.for_school(@school).includes(:domain_applications, :standard_applications).order('id asc')
+
+                    %li.hide.new-custom-guideline
+                      %i.icon-file
+                      = link_to "Create New", "#new-custom-guideline", :data => { :toggle => 'modal', :curriculum_node_id => child_node.id }, :class => 'new-custom-guideline'
+
+    .well
+
+      %h4 Days Planned
+
+      - for scheduled_domain in @domain_map.scheduled_domains
+
+        = form_for scheduled_domain do |f|
+
+          %p
+            = f.label :days, scheduled_domain.subject.name
+            = f.text_field :days, :value => scheduled_domain.days, :size => 2, :maxlength => 3, :style => 'width: 50px;'
+
+            %br
+            = f.submit "Save", :class => 'btn btn-primary'
+
+  .span6
+
+    %h3
+      Map:
+      = @domain.name
+      \/
+      = @domain.grade_name
+      \/
+      = @domain_map.school_year.name
+
+    %h4#back-to-curriculum
+      %a{:href => plan_curriculum_path(:grade => @domain.grade, :school_year_id => @school_year.id, :anchor => persisted_month_fragment(@school_year.id))}
+        %i.icon-calendar
+        Back to Curriculum Plan
+
+    %table.table.table-bordered.domain-map
+      %tr
+        %th Core Knowledge Content Guidelines
+        %th Standards
+
+      %tr
+        %td#content-target
+          %ul.curriculum.unstyled
+
+        %td#state-standards-target
+          %ul.state-standards.unstyled
+
+      %tr
+        %th{:colspan => 2} Language Arts Skills
+
+      %tr
+        %th Core Knowledge Skill Guidelines
+        %th Standards
+
+      %tr
+        %td#skills-content-target
+          %ul.curriculum.unstyled
+
+        %td#skills-state-standards-target
+          %ul.state-standards.unstyled
+
+      %tr
+        %th Prior Knowledge
+        %th Future Knowledge
+
+      %tr
+        %td#prior-knowledge
+          %ul.unstyled.knowledge-connections
+        %td#future-knowledge
+          %ul.unstyled.knowledge-connections
+
+      %tr
+        %th{:colspan => 2} Cross-Curricular Links
+
+      %tr
+        %td#cross-curricular{:colspan => 2}
+          %ul.unstyled.knowledge-connections
+
+      %tr
+        %th{:colspan => 2} Domain Vocabulary
+
+      %tr
+        %td#domain-vocabulary{:colspan => 2}
+          %table.table
+            %tr
+              - if @domain_map.vocabulary.empty?
+                %td{:style => "border: 0px;"}
+                  %ul.unstyled.domain-vocabulary
+              - else
+                - @domain_map.vocabulary.in_groups_of([(@domain_map.vocabulary.size / 4).to_i, 1].max, false) do |group|
+                  %td{:style => "border: 0px;"}
+                    %ul.unstyled.domain-vocabulary
+                      - for word in group
+                        %li
+                          = word
+                          = link_to '&times;'.html_safe, domain_map_vocabulary_word_path(@domain, :word => word), :class => 'remove-word hide'
+
+          = form_tag domain_map_vocabulary_path, :method => :put, :class => 'add-word' do
+            = text_field_tag 'word', '', :placeholder => "Add Vocabulary", :id => 'new-word'
+            = submit_tag "Add", :class => 'submit-word'
+
+  .span3#standards-container
+
+    .well{:style => 'margin-top: 92px;'}
+
+      %h4 CCSS Standards
+
+      = link_to "Copyright Info", "#", :rel => "popover",
+      :data => { :title => "Copyright Info",
+      :content => "ELA/Literacy and Math standards are Copyright NGA Center and CCSSO and are used here by permission.", :trigger => "hover", :placement => "left"}
+
+      %ul.curriculum.standards-browser.unstyled.tree-browser
+        - for subject in Standard.subjects_for_grade(@domain.grade)
+          %li
+            %i.icon-folder-close
+            = link_to subject, "#", :class => 'standard-subject'
+            %ul.indent5.unstyled
+              = render :partial => 'standard', :collection => Standard.common.for_grade(@domain.grade).for_subject(subject)
+
+    .well
+      %h4 Custom Standards
+
+      %ul.curriculum.standards-browser.unstyled.tree-browser
+        - for subject in Standard.custom_subjects_for_grade(@school, @domain.grade)
+          %li
+            %i.icon-folder-close
+            = link_to subject, "#", :class => 'standard-subject'
+            %ul.indent5.unstyled
+              = render :partial => 'standard', :collection => @school.custom_standards.for_grade(@domain.grade).for_subject(subject).order('ck_code asc')
+
+      = link_to "Create New", "#new-custom-standard", :class => 'btn', :data => { :toggle => 'modal' }
+
+
+= javascript_tag "window.domain_id = #{ @domain.id };"
+= javascript_tag "window.omitted_cross_curricular_links = #{ @domain_map.omitted_cross_curricular_links.to_json };"
+= javascript_tag "window.initial_mapped_guidelines = #{ @domain_map.guidelines.map {|g| { :domain_id => @domain.id, :guideline_id => g.id, :name => g.name, :id => g.id, :standard_ids => g.standards.map(&:id), :draggable_text => g.abbreviated_text, :custom => g.custom? } }.to_json };"
+= javascript_tag "window.initial_mapped_skills_guidelines = #{ @domain_map.skills_guidelines.map {|g| { :domain_id => @domain.id, :guideline_id => g.id, :name => g.name, :id => g.id, :standard_ids => g.standard_applications.map(&:standard_id), :draggable_text => g.abbreviated_text } }.to_json };"
+= javascript_tag "window.all_standards = #{ @standards_json };"
+= javascript_tag "window.initial_mapped_standards = #{ @included_standards.to_json };"
+= javascript_tag "window.initial_mapped_skills_standards = #{ @included_skills_standards.to_json };"
+
+= render :partial => 'my_school/standards/new', :locals => { :grade => @domain.grade }
+= render :partial => 'my_school/guidelines/new', :locals => { :grade => @domain.grade }
+
+= stylesheet_link_tag 'print_domain_maps', :media => 'print'
+= javascript_tag "window.schoolYearId = #{ @domain_map.school_year_id };"

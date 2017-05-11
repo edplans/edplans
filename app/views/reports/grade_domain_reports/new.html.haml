@@ -1,0 +1,20 @@
+.row
+  .span6.offset3
+    %h3 New Grade-Level Plan
+
+    = form_tag grade_domain_report_path, :method => :get, :class => 'form form-horizontal' do
+
+      = render :partial => 'reports/school_years', :locals => { :school_years => @school.school_years }
+
+      .control-group
+        = label_tag "report[grade]", "Grade", :class => 'control-label'
+        .controls= select_tag "report[grade]", options_for_select(@school.grades_with_translations.invert)
+
+      .control-group
+        = label_tag "report[style]", "Style", :class => 'control-label'
+        .controls= select_tag "report[style]", options_for_select({"Timeline (Web Only)" => "Timeline", "Table" => "Table"})
+
+      = render :partial => 'reports/format_choice'
+
+      .control-group
+        .controls= submit_tag "Prepare"

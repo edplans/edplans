@@ -1,0 +1,24 @@
+.row
+  .span12
+    %h1 Users
+
+    %table.table.table-bordered
+      %tr
+        %th User Email
+        %th School
+        %th Admin?
+        %th Planner?
+        %th Active
+        %th Invitation
+        %th Actions
+
+      - for user in @users
+        %tr.admin-user{:id => "user-#{user.id}", :data => { :user_id => user.id }}
+          %td= mail_to user.email
+          %td= user.school.try :name
+          %td= user.admin? ? "Y" : "N"
+          %td= user.planner? ? "Y" : "N"
+          %td= check_box_tag "user_#{ user.id }", "active", user.active?, :disabled => (user == current_user)
+          %td= user.invitation_token.present? ? link_to("Resend", resend_invitation_user_path(user, :format => 'json'), :class => "resend btn btn-primary") : "Accepted"
+          %td= link_to("Delete", user_path(user, :format => 'json'), :class => 'delete btn btn-danger') if user.invitation_token.present? 
+    %h4= will_paginate @users

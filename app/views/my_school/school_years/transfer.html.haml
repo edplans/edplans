@@ -1,0 +1,30 @@
+.row
+  .span10
+    %h3= "#{ @school_year.name } (#{ @school_year.days_count })"
+    
+    %fieldset
+      %legend= "Copying from #{ @from.name } (#{ @from.days_count })"
+
+      = form_tag transfer_school_year_path(@school_year, :from_year_id => @from.id), :method => :put, :class => 'form form-horizontal' do
+
+        .control-group
+          = label_tag :grade, "Grade", :class => 'control-label'
+          .controls
+            = select_tag :grade, options_for_select(@school.grades.map {|g| [School.grade_name_for(g), g]})
+        
+        .control-group
+          = label_tag :include_lesson_plans_false, "Copy the Grade-level Plan and Maps", :class => 'control-label'
+          .controls
+            = radio_button_tag :include_lesson_plans, false, true
+            
+        .control-group
+          = label_tag :include_lesson_plans_true, "Copy all instructional documents for this grade, including the Grade-level Plan, Maps, Units, and Lesson Plans.", :class => 'control-label'
+          .controls
+            = radio_button_tag :include_lesson_plans, true
+
+        .control-group
+          .controls
+            %p
+              This will delete any teaching documents in the target school year and grade, then copy the new documents.
+            = submit_tag "Copy", :class => 'btn btn-primary'
+       

@@ -1,0 +1,29 @@
+.row
+  .span6.offset3
+
+    %h3= @report.school_year.short_form
+
+    %h3= @report.school.name
+
+    %h3 Weekly Plan
+
+    %table.table.table-bordered
+
+      - for week in @report.weeks
+        %tr
+          %th.week-title
+            %h4= "Week #{ week.index }"
+            %span= week.short_form
+
+        - for grade in @report.school.grades
+
+          - unless @report.domains_for_grade_and_week(grade, week).empty?
+            %tr
+              %th= School.grade_name_for(grade)
+
+            - for domain in @report.domains_for_grade_and_week(grade, week).uniq
+              %tr
+                %td{:class => class_name_for_domain(domain)}= domain.name
+
+= render :partial => 'reports/key'
+= render :partial => 'reports/footer'

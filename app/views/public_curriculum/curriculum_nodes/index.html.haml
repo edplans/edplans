@@ -1,0 +1,11 @@
+.row
+  .span12
+    %h1 Current Curriculum
+    %table.table.table-bordered
+      %tr
+        %th Subject Area
+        %th Notes
+      - for node in @nodes
+        %tr
+          %td= link_to node.name, public_curriculum_node_path(node)
+          %td= node.notes.try(:html_safe)

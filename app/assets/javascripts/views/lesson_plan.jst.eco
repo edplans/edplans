@@ -1,0 +1,15 @@
+<a href="/domains/<%= @domain_id %>/domain_units/<%= @domain_unit_id %>/lesson_plans/<%= @id %>?school_year_id=<%= window.schoolYearId %>"><i class="icon-bookmark"/><%= @name %></a> by <%= @teacher_name %>
+<% if @owned: %>
+  <form method="post" action="/domains/<%= @domain_id %>/domain_units/<%= @domain_unit_id %>/lesson_plans/<%= @id %>" class="delete-lesson-plan">
+    <input type="hidden" name="_method" value="delete"/>
+    <input type="hidden" name="school_year_id" value="<%= window.schoolYearId %>">
+    <input type="hidden" name="authenticity_token" value="<%= $('meta[name="csrf-token"]').attr('content')%>" />
+    <a href="#delete-lesson-plan" class="delete-lesson-plan"><i class="icon-trash" /></a>
+  </form>
+<% else: %>
+  <form method="post" action="/domains/<%= @domain_id %>/domain_units/<%= @domain_unit_id %>/lesson_plans/<%= @id %>/clone?school_year_id=<%= window.schoolYearId %>" class="clone-lesson-plan">
+    <input type="hidden" name="_method" value="put"/>
+    <input type="hidden" name="authenticity_token" value="<%= $('meta[name="csrf-token"]').attr('content')%>" />
+    <a href="#clone-lesson-plan" class="clone-lesson-plan"><i class="icon-copy" /></a>
+  </form>
+<% end %>

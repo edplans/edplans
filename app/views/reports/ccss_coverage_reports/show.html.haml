@@ -1,0 +1,74 @@
+.row
+
+  .span12
+
+    %h3= "#{ @report.school.name } #{ @report.school_year.short_form }"
+
+    %h3  Standards Planning Report
+
+    - if @report.subject.present?
+      %h3= @report.subject_name
+
+    - if @report.grades.size == 1
+      %h3= School.grade_name_for(@report.grades.first)
+
+    %table.table
+
+      %thead
+
+        %tr
+          %th{:width => "65%"} Standards
+          %th Planned?
+          %th Domains & Topics
+          %th Grade Level
+          %th Start Week
+
+      %tbody
+        
+        - for grade in @report.grades
+          - unless @report.grades.size == 1
+            %tr
+              %th{:colspan => 5}
+                %h4= School.grade_name_for(grade)
+
+          - for strand in @report.strands_for_grade(grade)
+            %tr
+              %th{:colspan => 5}
+                %h3= strand
+
+            - for category in @report.categories_for_grade_and_strand(grade, strand)
+              %tr
+                %th{:colspan => 5}= category
+
+              - for standard in @report.standards_for_grade_strand_and_category(grade, strand, category)
+                - domain_maps = @report.domain_maps_with_standard_taught(standard, grade)
+                - if domain_maps.empty? && @report.include_unplanned?
+                  %tr
+                    %td
+                      %strong= standard.ck_code
+                      = standard.text.html_safe
+                    %td X
+                    %td
+                    %td= grade
+                    %td
+                  
+                - elsif !domain_maps.empty? && @report.include_planned?
+                  %tr
+                    %td{:rowspan => [[domain_maps.size,1].min,1].max}
+                      %strong= standard.ck_code
+                      = standard.text.html_safe
+                    %td{:rowspan => [[domain_maps.size,1].min,1].max} ✓
+                    %td{:class => class_name_for_domain(domain_maps.first.domain)}= domain_maps.first.domain.name
+                    %td= grade
+                    %td= domain_maps.first.scheduled_domain.start_week
+
+                  - for domain_map in domain_maps[1..domain_maps.size]
+                    %tr
+                      %td
+                      %td
+                      %td{:class => class_name_for_domain(domain_map.domain)}= domain_map.domain.name
+                      %td= grade
+                      %td= domain_map.scheduled_domain.start_week
+ 
+= render :partial => 'reports/key'
+= render :partial => 'reports/footer'

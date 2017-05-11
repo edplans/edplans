@@ -1,0 +1,4 @@
+%li{:class => "lesson_plan domain_unit_#{ lesson_plan.domain_unit_id }", :data => {:lesson_plan_id => lesson_plan.id, :lesson_plan_name => lesson_plan.name }}
+  %i.icon-bookmark
+  = link_to lesson_plan.name, "#"
+  = "by #{ lesson_plan.teacher.name }"

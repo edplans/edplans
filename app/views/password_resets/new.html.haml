@@ -1,0 +1,13 @@
+%row
+  %span6.offset3
+
+    = form_tag password_resets_path, :class => 'form-horizontal well' do
+
+      %fieldset
+        %legend Password Reset Request
+
+        %p
+          = label_tag :email
+          = text_field_tag :email
+        %p
+          = submit_tag "Reset Password", :class => 'btn btn-primary'

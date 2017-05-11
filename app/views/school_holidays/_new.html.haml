@@ -1,0 +1,23 @@
+.modal.hide.fade#newSchoolHoliday
+  .modal-header
+    %a{:class =>'close', 'data-dismiss' => 'modal'} ×
+    %h3 New School Holiday
+  = form_for SchoolHoliday.new, :html => { :class => 'form-horizontal' } do |f|
+    .modal-body
+      
+      .control-group
+        = f.label :start_date, "Date", :class => 'control-label'
+        .controls
+          .input-append.date{'data-date' => [Date.today, @school.year_start].max.strftime('%m/%d/%Y'), 'data-date-format' => 'mm/dd/yyyy'}
+            = f.text_field :start_date, :size => '16', :value => [Date.today, @school.year_start].max.strftime('%m/%d/%Y'), :class => 'span2'
+            %span.add-on
+              %i.icon-th
+
+      .control-group
+        = f.label :name, "Name", :class => 'control-label'
+        .controls= f.text_field :name
+
+    .modal-footer
+      
+      .control-group
+        .controls= f.submit "Add", :class => 'btn btn-primary'

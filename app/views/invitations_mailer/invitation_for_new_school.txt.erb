@@ -1,0 +1,15 @@
+At the bottom of this message you will find a link for entering your password. 
+
+You are the first person to join your school.
+
+Some  educators in your school will be Teachers, others will be Planners; you are a Planner. A Planner can arrange the school curriculum, and invite other educators to join the school. 
+
+Because you are the first, we ask that you complete a few simple tasks before inviting others. After you log in, you will see the tasks on your home page.
+
+Thank you for using the <%= t('full_app_name') %>!
+
+To accept your invitation please <%= link_to "Click Here", accept_invitation_url(:token => @user.invitation_token) %> or paste the following URL into your web browser:
+
+<%= accept_invitation_url(:token => @user.invitation_token)%>
+
+Thank you!

@@ -1,0 +1,4 @@
+%tr
+  %th{:colspan => 5}= curriculum_node.name_with_prefix
+= render :partial => 'curriculum_node', :collection => curriculum_node.children.order('position asc')
+= render :partial => 'guideline', :collection => curriculum_node.guidelines.for_school(@school)

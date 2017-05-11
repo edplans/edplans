@@ -1,0 +1,17 @@
+.row
+  .span12
+    %h1 Available Domains
+
+    - if current_user && current_user.admin?
+      %p
+        %strong Please note:
+      This is the main database of the Core Knowledge online curriculum. Any changes you make here will affect all schools and all teachers.
+
+      %p= link_to "Add New Domain", new_domain_path
+
+    %table.table.table-bordered.domains
+      %tr
+        %th Grade Level
+      - for grade in @grades
+        %tr
+          %td= link_to School.grade_name_for(grade), domains_grade_path(grade)

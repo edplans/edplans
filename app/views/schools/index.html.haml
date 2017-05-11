@@ -1,0 +1,17 @@
+.row
+  .span12
+    %h2 Recently Created Schools
+
+    %table.table.table-bordered
+      %tr
+        %th School Name
+        %th Date Invited
+        %th User Invited
+        %th Last School Update
+
+      - for school in @schools
+        %tr
+          %td= school.name || school.planner.try(:email)
+          %td= school.created_at.in_time_zone('Eastern Time (US & Canada)')
+          %td= school.teachers.order('created_at asc').first.try(:email)
+          %td= school.updated_at.in_time_zone('Eastern Time (US & Canada)')

@@ -1,0 +1,10 @@
+%tr
+  %td
+    %label{:for => "lesson_plan[guidelines_included][#{ guideline.id }]"}
+      = check_box_tag "lesson_plan[guidelines_included][#{guideline.id }]", "1", @lesson_plan.includes_guideline?(guideline), :style => "margin-top: -3px;"
+      = guideline.name.html_safe
+    %ul
+      - for sub_guideline in guideline.sub_guidelines
+        %li= sub_guideline.name.html_safe
+  %td
+    = text_area_tag "lesson_plan[measurable_objectives][#{ guideline.id }]", lesson_plan.measurable_objective_for(guideline), :placeholder => 'State the objective in measurable terms. Remember: these objectives are meant to be shared with students, so write at an appropriate level and avoid embedding answers.', :rows => 4, :style => "width: 350px;"

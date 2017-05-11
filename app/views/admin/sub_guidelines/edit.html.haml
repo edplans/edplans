@@ -1,0 +1,18 @@
+.row
+  .span6
+    = form_for @sub_guideline, :class => 'form' do |f|
+
+      %fieldset
+        %legend= "Edit #{ @sub_guideline.name.html_safe }"
+
+        .controls
+          = f.label :name
+          .control-group= f.text_area :name, :class => 'wysiwyg'
+
+        .controls
+          .control-group
+            = f.submit "Save", :class => 'btn btn-primary'
+            = link_to "Cancel", @sub_guideline.guideline.curriculum_node, :class => 'btn btn-cancel'
+
+
+    %p= button_to "Delete", @sub_guideline, :method => :delete, :class => 'btn btn-danger', :data => { :confirm => "Are you sure you want to delete this sub-guideline? All associated data will also be deleted." }

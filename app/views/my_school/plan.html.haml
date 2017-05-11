@@ -1,0 +1,51 @@
+.row
+  .span2
+    %table.table.table-condensed.domain-list
+      %tr.grade-header{:class => "grade-#{ @grade }"}
+        %th Domains & Topics
+      %tr.custom-domain{:class => "grade-#{ @grade }"}
+        %td= link_to "Create New...", "#newCustomDomain", :class => 'btn', :data => { :toggle => 'modal', :grade => @grade }
+
+  .span10
+
+    .plan-options{:style => 'float:right; height:100px;'}
+      %h4
+        %i.icon-print
+          = link_to "Print", grade_domain_report_path(:format => 'pdf', :report => { :grade => @grade, :style => 'Table', :school_year_id => @school_year.id })
+
+      = form_tag plan_curriculum_path(:grade => @grade), :method => :get, :id => 'change-school-year' do
+        = label_tag 'school_year_id', "School Year"
+        = select_tag 'school_year_id', options_for_select(@school.school_years.map {|y| [y.name, y.id]}, @school_year.id)
+
+
+    %h3
+      Curriculum Plan
+      = "for #{ @school.name }" if @school.name.present?
+      = ": #{ School.grade_name_for(@grade) }"
+
+    %ul.nav.nav-tabs#months
+      - for month in @school_year.months
+        %li{:id => "month-tab-#{ month.name.downcase }"}= link_to month.name[0..2], "#month-#{ month.name.downcase }", :data => { :month => month.name.downcase, :start_week => month.weeks.first.index, :end_week => month.weeks.last.index, :toggle => 'tab' }, :class => 'show-month'
+    .scrollable-calendar
+      - for month in @school_year.months
+        .calendar-content{:style => "position: relative; min-height: 1px;"}
+          .calendar-view{:style => "position: relative;", :unselectable => "on"}
+            %table.table.calendar{:class => "month-#{ month.name.downcase }", :data => { :month => month.name.downcase }}
+
+              %tr
+                %th Week
+                - for week in month.weeks
+                  %td.week-title{:id => "week-#{ week.index }"}= render :partial => 'week_tab', :locals => { :week => week }
+
+              - for subject in @subjects
+                %tr{:class => "subject-#{ subject.id }"}
+                  %th.subject-header{:width => "15%"}= subject.name
+                  - for week in month.weeks
+                    %td.week-cell{'data-grade' => @grade, 'data-week' => week.index, 'data-subject-id' => subject.id}
+            .scheduled-domains{:class => "month-#{ month.name.downcase }", :style => "position: absolute; z-index: 8; top: 0px; left: 0px;"}
+
+
+%span#grade{:data => { :grade => @grade }}/
+
+= render :partial => 'my_school/domains/new'
+= javascript_tag "window.schoolYearId = #{ @school_year.id };"

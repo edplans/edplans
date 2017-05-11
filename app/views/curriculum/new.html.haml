@@ -1,0 +1,149 @@
+.row
+  .span4
+    = form_tag curriculum_path, :class => 'form-vertical well', :multipart => true do
+      %fieldset
+        %legend Upload Curriculum
+
+        %p.alert Be sure to upload Domains first. Curriculum will not be linked to Domains unless Domains are uploaded before Curriculum.
+
+        .control-group
+          = label_tag :file, "File to upload", :class => 'control-label'
+          .controls= file_field_tag :file
+          %p.help-block Choose a file in .csv format.
+
+        .control-group
+          .controls= submit_tag "Upload", :class => 'btn btn-primary'
+
+
+    %fieldset
+      %legend Clear Curriculum
+      
+      %p 
+        Pressing this button will delete all current curriculum, 
+        including guidelines. Proceed with caution!
+
+      = form_tag clear_curriculum_path, :method => :delete do
+        
+        .control-group
+          = label_tag :grade
+          .controls= select_tag :grade, options_for_select(@grades)
+
+        .control-group
+          .controls= submit_tag "Destroy Curriculum", :class => 'btn btn-danger', :confirm => "Are you very, very sure?"
+
+  
+  .span8
+    %h1 Instructions
+
+    %p
+      %strong Please note: This is the main database of the Core Knowledge online curriculum. Any changes you make here will affect all schools and all teachers.
+
+    %p Your .csv file should have a structure like this, including the header row.
+
+    %table.table.table-bordered
+      %tr
+        %th Subject Area
+        %th Grade Level
+        %th Unit
+        %th Topic
+        %th Guideline
+        %th Sub-Guideline
+        %th Notes
+        %th Domain1
+        %th Domain2
+        %th Domain3
+        %th CCSS Standard
+
+      %tr
+        %td Language Arts
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+
+      %tr
+        %td 
+        %td Kindergarten
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+
+      %tr
+        %td 
+        %td
+        %td Listening and Speaking
+        %td
+        %td
+        %td
+        %td Written text makes use of richer vocabulary and more complex syntax than conversational language. It is important that young children be exposed not only to the language of everyday conversation but also to the richer and more formal language of books.
+        %td Myths Reflect Culture
+        %td
+        %td
+        %td
+
+      %tr
+        %td 
+        %td
+        %td
+        %td Comprehension and Discussion of Read-Alouds
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+
+      %tr
+        %td 
+        %td
+        %td
+        %td
+        %td Listen to and understand a variety of texts read aloud, including fictional stories, fairy tales, fables, historical narratives, drama, informational text, and poems.
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+
+      %tr
+        %td 
+        %td
+        %td
+        %td
+        %td
+        %td Learn to sound out words read by others.
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+
+      %tr
+        %td 
+        %td
+        %td
+        %td
+        %td Describe illustrations.
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td K.SL.1

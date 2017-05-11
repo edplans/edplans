@@ -1,0 +1,122 @@
+table.domain-map { 
+
+  td#content-target, td#state-standards-target, 
+    td#skills-content-target, td#skills-state-standards-target {
+    width: 200px;
+    height: 200px;
+  }
+
+  th {
+    text-align: center;
+  }
+
+  li.knowledge-connection > i {
+    color: #AAA;
+  }
+
+  li.omitted {
+    color: #DDD;
+    a {
+      color: #DDD;
+    }
+  }
+
+}
+
+
+// Curriculum panel to drag from
+
+ul.curriculum {
+
+  // Indent levels of curriculum
+
+  ul.indent5 {
+    margin-left: 5px;
+  }
+
+  ul.indent10 {
+    margin-left: 10px;
+  }
+
+  ul.indent15 {
+    margin-left: 15px;
+  }
+
+  ul.indent20 {
+    margin-left: 20px;
+  }
+
+  ul.indent25 {
+    margin-left: 25px;
+  }
+
+  li i.icon-bookmark, i.icon-folder-close, i.icon-folder-open, i.icon-file {
+    color: #CCC;
+  }
+
+  // Highlight custom guidelines in orange
+
+  li span.guideline.custom i {
+    color: #F95E04;
+  }
+  
+  // Highlight domain applicable nodes
+
+  li.applicable {
+    background-color: #FCF8E3;
+    border: 1px solid #FBEED5;
+    li.applicable {
+      border: 0px;
+    }
+  }
+
+  // Highlight parents of domain applicable nodes
+
+  li.applicable-child > a.curriculum-node {
+    font-weight: bold;
+  }
+
+  li.applicable-child > i {
+    color: #AAA;
+  }
+
+  span.guideline {
+    cursor: move;
+  }
+
+  span.guideline.mapped {
+    color: #CCC;
+    cursor: auto;
+  }
+
+}
+
+ul.standards-browser {
+
+  max-height: 300px;
+  overflow-y: scroll;
+  
+  li.standard {
+    font-size: 10px;
+    &.mapped {
+      color: #999;
+    }
+  }
+
+}
+
+#tree-browser {
+  max-height: 600px;
+  overflow-y: scroll;
+  margin-bottom: 15px;
+}
+
+#curriculum-container {
+  padding-top: 75px;
+}
+
+// Highlight custom guidelines in orange
+
+li.mapped-guideline.custom i.icon-bookmark {
+  color: #F95E04;
+}

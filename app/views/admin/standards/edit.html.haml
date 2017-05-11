@@ -1,0 +1,44 @@
+.row
+  .span8.offset2
+    = form_for @standard, :class => 'form form-horizontal' do |f|
+      
+      %fieldset
+        %legend= "Edit #{ @standard.ck_code }"
+
+        .controls
+          = f.label :subject
+          .control-group= f.select :subject, ["ELA/Literacy", "Math"]
+
+        .controls
+          = f.label :position, "CK Order"
+          .control-group= f.number_field :position
+
+        .controls
+          = f.label :ck_code, "CK Code"
+          .control-group= f.text_field :ck_code
+
+        .controls
+          = f.label :ck_align, "CK Align Code"
+          .control-group= f.text_field :ck_align
+
+        .controls
+          = f.label :strand_code, "Strand Code"
+          .control-group= f.text_field :strand_code
+          
+        .controls
+          = f.label :strand, "Strand/Domain"
+          .control-group= f.text_field :strand
+
+        .controls
+          = f.label :category
+          .control-group= f.text_field :category
+
+        .controls
+          = f.label :text
+          .control-group= f.text_area :text, :class => 'wysiwyg'
+
+        .controls
+          .control-group
+            = f.submit "Save", :class => 'btn btn-primary'
+            or
+            = link_to "Cancel", standards_path

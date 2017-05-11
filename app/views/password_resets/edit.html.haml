@@ -1,0 +1,16 @@
+.row
+  .span6.offset3
+
+    = form_for @user, :url => password_reset_path(@token), :html => { :class => 'form form-horizontal well', :method => :put } do |f|
+
+      %fieldset
+        %legend Choose a New Password
+
+        .control-group
+          = f.label :password, "New Password", :class => 'control-label'
+          .controls= f.password_field :password
+
+        = hidden_field_tag :token, @token
+
+        .control-group
+          .controls= f.submit "Reset", :class => 'btn btn-primary'

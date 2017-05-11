@@ -1,0 +1,35 @@
+.row
+
+  .span12
+
+    %h3= "#{ @report.school.name } - #{ @report.school_year.short_form }"
+
+    %h3  Grade-Level Plan
+
+    %h3= "Grade: #{ @report.grade }"
+
+
+    %table.table
+
+      %thead
+
+        %tr
+          %th{:width => "33%"} Subjects
+          %th Domains & Topics
+          %th Weeks
+
+      %tbody
+
+        - for subject in @report.subjects
+
+          %tr
+            %th{:colspan => 3}= subject.name
+
+          - for domain in @report.domains_for_subject(subject)
+            %tr
+              %td
+              %td{:class => class_name_for_domain(domain)}= domain.name
+              %td= @report.weeks_taught(domain, subject).join(', ')
+
+= render :partial => 'reports/key'
+= render :partial => 'reports/footer'

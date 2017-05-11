@@ -1,0 +1,59 @@
+tr.grade-header th {
+  background-color: #F4F4F4;
+  border-bottom: 1px solid #DDD;
+  border-top: 1px solid #DDD;
+  border-left: 1px solid #DDD;
+  border-right: 1px solid #DDD;
+  color: #333;
+  a, a:hover {
+    color: #333;
+  }
+  i {
+    color: #888;
+  }
+}
+
+tr.domain td, tr.custom-domain td {
+  background-color: #E4EFF7;
+  border-bottom: 1px solid #DDD;
+  border-top: 1px solid $white;
+  border-left: 1px solid #DDD;
+  border-right: 1px solid #DDD;
+}
+
+tr.custom-domain td {
+  text-align: center;
+}
+
+span.domain.omitted {
+  display: none;
+}
+
+a.toggle-domain {
+  float: right;
+  font-size: 10px;
+}
+
+td.week-title a {
+  display: inline-block;
+}
+
+div.scheduled-domain {
+  border: 2px solid $blue;
+  background-color: $blue + #333;
+  font-size: 12px;
+  padding-left: 3px;
+  a, a:visited {
+    color: $white;
+    text-decoration: none;
+  }
+  &.custom-course-unit {
+    border: 2px solid ($purple - #333);
+    background-color: $purple;
+  }
+}
+
+// Highlight colors for droppable cells
+td.week-cell.ui-state-highlight {
+  background-color: $pink + #666;
+}

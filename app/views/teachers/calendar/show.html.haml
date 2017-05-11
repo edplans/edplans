@@ -1,0 +1,20 @@
+.row
+  .span12
+    
+    %h2
+      = current_user.name
+      = " | "
+      = @school.name
+
+    #teacher-calendar
+
+.row
+  .span6
+    %h3 Units
+    %ul= render :partial => 'domain_unit', :collection => @domain_units
+      
+  .span6
+    %h3 Lesson Plans
+    %ul= render :partial => 'lesson_plan', :collection => @lesson_plans
+
+= javascript_tag "window.schoolYearId = #{ @school_year.id };"

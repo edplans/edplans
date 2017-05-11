@@ -1,0 +1,28 @@
+.row
+  .span6.well
+
+    = form_for @domain, :url => domains_path, :class => 'form' do |f|
+
+      %fieldset
+        %legend New Domain
+
+        .controls
+          = f.label :name, :class => 'control-label'
+          .control-group
+            = f.text_field :name
+
+        .controls
+          = f.label :grade, :class => 'control-label'
+          .control-group
+            = f.select :grade, School::GRADES
+
+        .controls
+          = f.label :days, :class => 'control-label'
+          .control-group
+            = f.text_field :days, :size => 2, :maxlength => 3
+
+        .controls
+          .control-groups= f.submit "Save", :class => 'btn btn-primary'
+          
+    %p
+      = link_to "Cancel", domains_path, :class => 'btn'

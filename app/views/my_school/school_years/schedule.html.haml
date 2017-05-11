@@ -1,0 +1,26 @@
+.row
+  .span12
+    %ul.breadcrumb
+      %li= link_to "School Settings", edit_my_school_path
+      %li= "|"
+      %li= link_to "School Year: #{ @school_year.name }", edit_school_year_path(@school_year)
+
+.row
+  .span5
+    = form_for @school_year, :html => { :class => 'horizontal-form' }, :url => school_year_schedule_path(@school_year), :method => :put do |f|
+      
+      %fieldset
+        %legend
+          %strong= @school_year.name
+      
+        .control-group
+          = f.label :schedule, "Schedule", :class => 'control-label'
+          .controls
+
+            %p.help-block Enter days rotating in schedule separated by commas
+
+            = f.text_field :schedule, :value => @school_year.schedule.join(", "), :placeholder => "e.g. A, B, C"
+
+        .control-group
+          .controls
+            = f.submit "Save", :class => 'btn btn-primary'

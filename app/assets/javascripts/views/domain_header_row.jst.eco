@@ -1,0 +1,6 @@
+<tr class="grade-header grade-<%= @grade %> tag-<%= @tag_class_name %> <%= 'custom' if @custom? %>">
+  <th>
+    <i class="icon-folder-open" />
+    <a href="#" class="toggle-domain-folder" data-toggle-tag="tag-<%= @tag_class_name %>" data-toggle-grade="grade-<%= @grade %>"><%= @tag %></a>
+  </th>
+</tr>

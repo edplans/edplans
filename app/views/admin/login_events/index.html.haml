@@ -1,0 +1,13 @@
+.row
+  .span12
+    %h2 Recent Logins
+
+    %table.table.tabled-bordered
+      %tr
+        %th Time
+        %th User
+
+      - for event in @login_events
+        %tr
+          %td= event.created_at
+          %td= event.user.email

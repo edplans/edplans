@@ -1,0 +1,1 @@
+<a href="#" rel="popover" data-title="<%= @ck_code %>" data-content="<%- @text %>" data-html="true"><%= @ck_code %></a>: <%- @short_text %> <a href="#" class="omit-standard hide" title="Omit This Standard">&times;</a>

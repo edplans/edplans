@@ -1,0 +1,3 @@
+.control-group
+  = label_tag "format", "Format", :class => 'control-label'
+  .controls= select_tag "format", options_for_select({"Web" => "html", "PDF" => "pdf"})

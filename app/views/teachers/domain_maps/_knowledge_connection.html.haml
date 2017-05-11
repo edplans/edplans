@@ -1,0 +1,7 @@
+%li.knowledge-connection{:class => ('omitted' if omitted_connections.include?(knowledge_connection))}
+  - if knowledge_connection.is_a?(Guideline)
+    %i.icon-bookmark= ""
+    = link_to "#{ knowledge_connection.name_with_prefix } (#{ knowledge_connection.grade_name })".html_safe, public_guideline_path(knowledge_connection)
+  - else
+    %i.icon-folder-close= ""
+    = link_to "#{ knowledge_connection.name_with_prefix } (#{ knowledge_connection.grade_name })".html_safe, public_curriculum_node_path(knowledge_connection)

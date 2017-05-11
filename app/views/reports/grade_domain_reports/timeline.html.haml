@@ -1,0 +1,35 @@
+.row
+  .span12
+
+    %h3= "Grade Level Plan: #{ School.grade_name_for @report.grade }"
+
+    %h3= @report.school_year.short_form
+
+    %h3= @report.school.name
+
+    %table.table.table-bordered
+
+      %thead
+        %tr
+          %th
+            - for month in @report.school_year.months
+              %th{:colspan => month.weeks.size}= month.name
+        %tr
+          %th Week
+          - for week in @report.school_year.weeks
+            %td{:style => "width:50px;"}= week.index
+
+      %tbody
+        - for subject in @report.subjects
+          - rows = rows_for_scheduled_domains(@report.scheduled_domains_for_subject(subject), @report.school_year.weeks.size)
+          %tr
+            %th{:rowspan => rows.size + 1}= subject.name
+            - if rows.empty?
+              %td{:colspan => @report.school_year.weeks.size}
+
+          - for row in rows
+            %tr
+              - for cell in row.cells
+                %td{:class => cell.class_name, :colspan => cell.weeks}= cell.text
+
+= render :partial => 'reports/footer'

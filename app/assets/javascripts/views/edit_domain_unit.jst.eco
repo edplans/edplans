@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <a class="close" data-dismiss="modal">&times;</a>
+  <h3>Edit Domain Unit</h3>
+</div>
+<form class="form form-horizontal">
+  <div class="modal-body">
+    <div class="control-group">
+      <label for="domain_unit_name" class="control-label">Name</label>
+      <div class="controls">
+        <input type="text" name="domain_unit_name" id="domain_unit_name" value="<%= @name %>"/>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label for="domain_unit_subject_id" class="control-label">Subject</label>
+      <div class="controls">
+        <select name="domain_unit_subject_id">
+          <% for subject in window.subjects: %>
+            <option value="<%= subject.id %>" <%= if (subject.id == @subject_id) then "selected='selected'" else "" %>><%= subject.name %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="control-group">
+      <div class="controls">
+        <input type="submit" class="btn btn-primary" value="Update" />
+      </div>
+    </div>
+  </div>
+</form>

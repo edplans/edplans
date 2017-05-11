@@ -1,0 +1,31 @@
+.row
+  .span12
+    %h1= @domain.name
+
+- if current_user_is_admin?
+  .row
+    .span6.well
+      
+      = form_for @domain, :url => admin_domain_path(@domain), :class => 'form' do |f|
+        
+        %fieldset
+          %legend Edit This Domain
+        
+          .controls
+            = f.label :name, :class => 'control-label'
+            .control-group
+              = f.text_field :name
+
+          .controls
+            = f.label :days, :class => 'control-label'
+            .control-group
+              = f.text_field :days, :size => 2, :maxlength => 3
+
+          .controls
+            .control-groups= f.submit "Save", :class => 'btn btn-primary'
+
+      %p
+        = button_to "Delete", admin_domain_path, :method => 'delete', :class => 'btn btn-danger', :data => { :confirm => "Are you sure you want to delete this domain? If you do, all associated data, including any domain maps based on this domain, will be destroyed." }
+
+      %p
+        = link_to "Cancel", domains_grade_path(@domain.grade), :class => 'btn'

@@ -1,0 +1,19 @@
+.row
+  .span8
+    = form_for @guideline, :path => guidelines_path(:curriculum_node_id => @curriculum_node.id), :class => 'form' do |f|
+
+      %fieldset
+        %legend New Guideline
+
+        .controls
+          = f.label :name
+          .control-group= f.text_area :name, :class => 'wysiwyg'
+
+        .controls
+          = f.label :notes
+          .control-group= f.text_area :notes, :class => 'wysiwyg'
+
+        .controls
+          .control-group
+            = f.submit "Save", :class => 'btn btn-primary'
+            = link_to "Cancel", curriculum_node_path(@curriculum_node), :class => 'btn btn-cancel'

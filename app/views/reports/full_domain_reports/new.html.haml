@@ -1,0 +1,17 @@
+.row
+  .span6.offset3
+    %h3 New School-Wide Curriculum Report
+
+    = form_tag full_domain_report_path, :method => :get, :class => 'form form-horizontal' do
+
+      = render :partial => 'reports/school_years', :locals => { :school_years => @school.school_years }
+
+      .control-group
+        = label_tag "report[include_units]", "Show", :class => 'control-label'
+        .controls= select_tag "report[include_units]", options_for_select([["Domains and Topics", true], ["Domains Only", false]])
+
+
+      = render :partial => 'reports/format_choice'
+
+      .control-group
+        .controls= submit_tag "Prepare"

@@ -1,0 +1,19 @@
+.row
+  .span12
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th User
+          %th Email
+          %th Planner
+          %th Teacher
+          %th Active
+
+      %tbody
+        - for user in @users
+          %tr.user{ :data => { :user_id => user.id } }
+            %td= user.name
+            %td= user.email
+            %td= radio_button_tag "user_#{ user.id }", "promote", user.planner?, :disabled => (user == current_user)
+            %td= radio_button_tag "user_#{ user.id }", "demote", !user.planner?, :disabled => (user == current_user)
+            %td= check_box_tag "user_#{ user.id }", "active", user.active?, :disabled => (user == current_user)

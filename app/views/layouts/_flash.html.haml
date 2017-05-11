@@ -1,0 +1,12 @@
+- if flash[:error]
+  .alert.alert-error
+    = link_to "×", "#", :data => { :dismiss => 'alert' }, :class => 'close'
+    = flash[:error]
+- elsif flash[:notice]
+  .alert
+    = link_to "×", "#", :data => { :dismiss => 'alert' }, :class => 'close'
+    = flash[:notice]
+- elsif flash[:success]
+  .alert.alert-success
+    = link_to "×", "#", :data => { :dismiss => 'alert' }, :class => 'close'
+    = flash[:success]

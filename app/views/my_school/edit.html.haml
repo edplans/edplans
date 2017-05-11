@@ -1,0 +1,36 @@
+.row
+  .span5.well
+    = form_for @school, :url => my_school_path, :html => { :class => 'horizontal-form' } do |f|
+      %fieldset
+        %legend
+          %strong My School
+
+        .control-group
+          = f.label :name, "School Name", :class => 'control-label'
+          .controls
+            = f.text_field :name, :placeholder => 'e.g. Washington Elementary'
+
+
+        .control-group
+          %p Your Grade Offerings
+          .controls.grades
+            %table.table.table-bordered
+              %tr
+                - for grade in School::GRADES
+                  %th= label_tag "school[grades][#{ grade }]", grade
+              %tr
+                - for grade in School::GRADES
+                  %td= check_box_tag "school[grades][]", grade, @school.grades.include?(grade)
+
+        .control-group
+          .controls= f.submit "Update", :class => 'btn btn-primary'
+
+  .span5.well
+    %fieldset
+      %legend 
+        %a{:rel => "popover", :data => { :title => "School Year", :content => "The term <em>School Year</em> is used to designate any instructional period. The period may be a traditional education year (September to June), or a semester, or a summer session. In the following pages, all of these will be referred to as <em>School Year</em>.".html_safe, :html => "true", :placement => "bottom" } } School Years
+      
+      %ul
+        - for year in @school.school_years
+          %li= link_to year.name, edit_school_year_path(year)
+        %li= link_to "Add New", new_school_year_path

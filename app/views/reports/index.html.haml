@@ -1,0 +1,49 @@
+.row
+  .span6offset3
+    %h1 Available Reports
+
+    %table.table.table-bordered
+
+      %thead
+
+        %tr
+          %th Name
+          %th Description
+
+      %tbody
+
+        %tr
+          %th= link_to "1. School-Wide Curriculum Plan", new_full_domain_report_path
+          %td Full plan of all domains in all grades, for a full year.
+
+        %tr
+          %th= link_to "2. Grade-Level Plan", new_grade_domain_report_path
+          %td Domains scheduled by week, for one grade.
+
+        %tr
+          %th= link_to "3. Subject-Specific Plan", new_subject_domain_report_path
+          %td Domains scheduled by subject and by week, for all grades.
+
+        %tr
+          %th= link_to "4. Weekly Plan", new_domain_week_report_path
+          %td Domains taught for a single week or all weeks, for all grades.
+
+        %tr
+          %th= link_to "5. CK Sequence Planning Report", new_ss_coverage_report_path
+          %td Core Knowledge curriculum outline list showing scheduled guidelines, for one grade or all grades.
+
+        %tr
+          %th= link_to "6. Standards Planning Report", new_ccss_coverage_report_path
+          %td Standards planned and not planned, for one grade or all grades.
+
+        %tr
+          %th= link_to "7. Lessons Report", new_domain_lessons_report_path
+          %td
+            Select one domain or topic. Wherever you have a selected a 
+            guideline for a lesson, the report will list those guidelines 
+            and the titles of your lesson plans.
+
+        %tr
+          %th= link_to "8. Prior and Future Knowledge Report", new_related_knowledge_report_path
+          %td
+            List the related topics in prior years and future years for one Domain.

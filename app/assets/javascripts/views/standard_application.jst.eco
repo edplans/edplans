@@ -1,0 +1,8 @@
+<li>
+  <a data-title="<% @standard_ck_code %>"
+  data-content="<%= @standard_text %>" data-placement="left"
+  rel="popover" href="#"><%= @standard_ck_code %></a>
+  <%= @standard_short_text %>
+  <a href="#" class="destroy-application">&times;</a>
+</li>
+     

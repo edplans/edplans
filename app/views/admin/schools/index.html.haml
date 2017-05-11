@@ -1,0 +1,15 @@
+.row
+  .span12
+    %h2 Schools List
+
+    %table.table.table-bordered
+      %tr
+        %th School Name
+        %th Created
+
+      - for school in @schools
+        %tr
+          %td= school.name || school.planner.try(:email)
+          %td= school.created_at.in_time_zone('Eastern Time (US & Canada)')
+
+    %h3= will_paginate @schools

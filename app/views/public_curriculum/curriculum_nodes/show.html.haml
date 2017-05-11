@@ -1,0 +1,54 @@
+.row
+  .span12
+    %ul.breadcrumb
+      - for ancestor in @node.ancestors.all.sort_by(&:depth)
+        %li= link_to ancestor.name, public_curriculum_node_path(ancestor)
+        = "/"
+      %li
+        = link_to @node.name, public_curriculum_node_path(@node)
+
+.row
+  .span12
+    %table.table.table-bordered
+      - if @node.guidelines.common.count > 0
+        %tr
+          %th Guideline
+          %th Sub-Guideline
+          %th Domains
+          %th Notes
+          %th CCSS Standards
+        - for guideline in @node.guidelines.common.order('id asc')
+          %tr
+            %td
+              = link_to "&bull; #{ guideline.name }".html_safe, public_guideline_path(guideline)
+            %td
+            %td= guideline.inherited_domains.map(&:name).join(', ')
+            %td= guideline.notes.try(:html_safe)
+            %td
+              - for standard in guideline.standards
+                = link_to standard.ck_code, '', :rel => 'popover', :data => { :title => standard.ck_code, :content => standard.text, :placement => 'left' }
+          - for sub_guideline in guideline.sub_guidelines.order('id asc')
+            %tr
+              %td
+              %td
+                = sub_guideline.name.html_safe
+              %td
+              %td
+              %td
+        - if @node.children.count > 0
+          %tr
+            %th{:colspan => 5}/
+
+      - if @node.children.count > 0
+        %tr
+          %th{:colspan => 2}= @node.next_level_name
+          %th Domains
+          %th Notes
+          %th CCSS Standards
+        - for node in @node.children.order('position asc')
+          %tr
+            %td{:colspan => 2}
+              = link_to node.name_with_prefix, public_curriculum_node_path(node)
+            %td= node.inherited_domains.map(&:name).join(', ')
+            %td= node.notes.try(:html_safe)
+            %td

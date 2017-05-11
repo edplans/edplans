@@ -1,0 +1,7 @@
+Welcome to the <%= t('app_name') %>!
+
+You have been invited to be a #{ @user.role.titleize }; to accept your invitation please <%= link_to "Click Here", accept_invitation_url(:token => @user.invitation_token) %> or paste the following URL into your web browser:
+
+<%= accept_invitation_url(:token => @user.invitation_token)%>
+
+Thank you!

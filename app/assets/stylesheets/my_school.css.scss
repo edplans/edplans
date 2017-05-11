@@ -1,0 +1,46 @@
+// Inline list of grades to be checked
+.controls.grades {
+  label, input[type=checkbox] {
+    display: inline;
+  }
+}
+
+// Vertical text for Month labels on domain plan
+p.month-name {
+  writing-mode: tb-lr; // IE
+  -webkit-transform: rotate(-90deg);	
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  text-align: center;
+  margin-top: 30px;
+}
+
+td.week-title {
+  border-left: 1px solid #DDD;
+}
+
+.scrollable-calendar {
+  overflow: hidden;
+  width: 100%
+}
+
+table.domain-list {
+  margin-top: 60px;
+}
+
+.plan-options {
+  float: right;
+  margin-left: 25px;
+  min-height: 100px;
+}
+
+input.bumped-up-radio {
+  margin-bottom: 6px;
+}
+
+legend .popover {
+  font-size: 12px;
+  line-height: 1.4em;
+}
+       

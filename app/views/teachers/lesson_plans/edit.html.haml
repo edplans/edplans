@@ -1,0 +1,121 @@
+= form_for @lesson_plan, :url => domain_unit_lesson_plan_path(@domain, @domain_unit, @lesson_plan), :html => { :class => 'form form-horizontal lesson-plan' } do |f|
+
+  .row.well
+    .span9.offset2
+
+      %h3 Edit Lesson Plan
+
+      .control-group
+        = f.label :name, 'Title', :class => 'control-label'
+        .controls= f.text_field :name, :style => 'font-size: 18px;'
+
+        %dl.lesson-plan-details
+          %div
+            %dt
+              %i.icon-user
+              Creator
+            %dd= @lesson_plan.teacher.name
+          %div
+            %dt
+              %i.icon-calendar
+              Created On
+            %dd= @lesson_plan.created_at.strftime("%b %e, %Y").gsub(/\s+/, ' ')
+          %div
+            %dt
+              %i.icon-sitemap
+              Map
+            %dd
+              = @lesson_plan.domain_unit.domain_map.domain.name
+              = "(#{ @lesson_plan.domain_unit.domain_map.domain.grade_name })"
+              %a{:href => show_domain_map_path(@domain_map.school_year, @domain.id)}
+                %i.icon-external-link
+          %div
+            %dt
+              %i.icon-folder-close
+              Unit Title
+            %dd= @lesson_plan.domain_unit.name
+
+  .row.well
+    .span6.offset2
+      .control-group
+        = f.label :essential_understanding, 'Essential Understanding', :class => 'control-label', :rel => 'popover', :data => { :title => 'Essential Understanding', :content => 'A statement that indicates the key content understandings students should have by the end of the lesson.', :placement => 'top' }
+        .controls= f.text_area :essential_understanding, :rows => 4, :placeholder => "Describe the key content understandings students will develop as a result of this lesson."
+
+  .row.well
+    .span12#content-guidelines
+      %h4 Content Guidelines & Objectives
+
+      %a.collapse-guidelines{:data => { :collapse => 'content-guidelines' }} - Collapse
+      %a.collapse-guidelines.hide{:data => { :collapse => 'content-guidelines' }} + Expand
+
+      %table.table.table-bordered
+        %tr
+          %th Guidelines
+          %th{:width => '50%', :rel => 'popover', :data => { :title => 'Content Objectives', :content => 'A student-friendly statement indicating what students should know and be able to do with regard to content by the end of the lesson. Often begins "By the end of this lesson, students will be able to..."', :placement => 'top' }} Measurable Objectives
+        
+        = render :partial => 'measurable_objective_entry', :collection => @domain_map.guidelines, :as => :guideline, :locals => { :lesson_plan => @lesson_plan }
+
+  .row.well
+    .span12#skills-guidelines
+      %h4 ELA/Literacy Skill Guidelines & Objectives
+
+      %a.collapse-guidelines{:data => { :collapse => 'skills-guidelines' }} - Collapse
+      %a.collapse-guidelines.hide{:data => { :collapse => 'skills-guidelines' }} + Expand
+
+      %table.table.table-bordered
+        %tr
+          %th Guidelines
+          %th{:width => '50%', :rel => 'popover', :data => { :title => 'ELA/Literacy Skill Objectives', :content => 'A student-friendly statement indicating what students should know and be able to do with regard to content by the end of the lesson. Often begins "By the end of this lesson, students will be able to..."', :placement => 'top' }} Measurable Objectives (Skill)
+
+        = render :partial => 'measurable_objective_entry', :collection => @domain_map.skills_guidelines, :as => :guideline, :locals => { :lesson_plan => @lesson_plan }
+
+  .row.well
+    .span10.offset1
+      %h4.label{:rel => :popover, :data => { :title => LessonPlan.label_text_for(:ongoing_assessment), :content => help_block_text_for(:ongoing_assessment), :placement => 'top' }} Assessment
+
+      .control-group
+        .controls
+          %p.help-block.hide= placeholder_text_for(:ongoing_assessment)
+          = f.text_area :ongoing_assessment, :class => 'wysiwyg', :placeholder => placeholder_text_for(:ongoing_assessment)
+
+    .span10.offset1
+
+      %h4.label{:rel => :popover, :data => { :title => LessonPlan.label_text_for(:criteria_for_success), :content => help_block_text_for(:criteria_for_success), :placement => 'top' }} Criteria for Success
+
+      .control-group
+        .controls
+          %p.help-block.hide= placeholder_text_for(:criteria_for_success)
+          = f.text_area :criteria_for_success, :class => 'wysiwyg', :placeholder => placeholder_text_for(:criteria_for_success)
+
+    .span10.offset1
+      %h4 Activities & Procedures
+
+      = render :partial => 'wysiwyg_field_entry', :locals => { :f => f }, :collection => [ :read_aloud_resources ], :as => :field_name
+
+      .control-group
+        = label_tag :vocabulary_words, "Shared Vocabulary From Domain/Unit", :class => 'control-label'
+        .controls
+          %p= @domain_map.vocabulary.join(', ')
+
+      = render :partial => 'wysiwyg_field_entry', :locals => { :f => f }, :collection => [ :vocabulary_tier_2_words, :procedures, :extensions], :as => :field_name
+
+  .row
+    .span10.offset1
+      %h4 Additional Information
+
+      = render :partial => 'wysiwyg_field_entry', :locals => { :f => f }, :collection => [ :support_and_enrichment, :materials_and_resources, :personal_notes, :team_notes ], :as => :field_name
+
+    .span6.offset3
+      %h4 Finishing Up
+
+      .control-group
+        = f.label :shared, "Share With Other Teachers", :class => 'control-label', :id => 'lesson_plan_shared'
+        .controls= f.check_box :shared
+
+    .span5.offset5
+      %p
+        = f.submit "Save", :class => 'btn btn-primary'
+        = "&nbsp;".html_safe
+        = f.submit "Save and Attach Files", :class => 'btn btn-primary'
+        = "&nbsp;".html_safe
+        = link_to "Cancel", domain_unit_lesson_plan_path(@domain, @domain_unit, @lesson_plan, :school_year_id => @school_year.id), :data => { :confirm => "If you want to discard your changes to this lesson plan, click OK." }         

@@ -1,0 +1,31 @@
+.row
+  .span8.offset2
+    = form_for @user, :url => accept_invitation_path(:token => @user.invitation_token), :html => { :class => 'form-horizontal well' } do |f|
+
+      %fieldset
+        %legend= "Please Set Your Password and Name"
+
+        .control-group
+          = f.label :email, "Email Address", :class => 'control-label'
+          .controls= f.email_field :email, :readonly => true
+
+        .control-group
+          = f.label :first_name, "First Name", :class => 'control-label'
+          .controls= f.text_field :first_name
+
+        .control-group
+          = f.label :first_name, "Last Name", :class => 'control-label'
+          .controls= f.text_field :last_name
+
+        .control-group
+          = f.label :password, "Password", :class => 'control-label'
+          .controls= f.password_field :password
+
+        .control-group
+          %p
+            I agree to the 
+            = link_to "Terms of Use", "/terms_of_use.pdf", :target => "_new"
+          .controls= f.check_box :terms
+
+        .control-group
+          .controls= f.submit "Accept Invitation", :class => 'btn btn-primary'

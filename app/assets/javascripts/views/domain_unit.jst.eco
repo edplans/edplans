@@ -1,0 +1,18 @@
+<th>
+  <%= @name %> / <%= @subject_name %>
+  <% if @owned and @lesson_plans_empty: %>
+    <a href="/domains/<%= @domain_id %>/domain_units/<%= @id %>" class="delete-domain-unit" title="Delete">
+      <i class="icon-trash" />
+    </a>
+  <% end %>
+  <% if @owned: %>
+    <a href="#edit-domain-unit" class="edit-domain-unit" title="Edit">
+      <i class="icon-pencil" />
+    </a>
+  <% end %>
+</th>
+<td class="domain-unit" data-domain-unit-id="<%= @id %>">
+  <ul class="unstyled lesson-plans" data-domain-unit-id="<%= @id %>">
+    <li class="new-lesson-plan"><a href='/domains/<%= @domain_id %>/domain_units/<%= @id %>/lesson_plans/new?school_year_id=<%= window.schoolYearId %>' class='btn'>New Lesson Plan</a></li>
+  </ul>
+</td>

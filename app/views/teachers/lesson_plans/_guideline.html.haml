@@ -1,0 +1,8 @@
+%tr
+  %th= guideline.name.html_safe
+  %td
+    - for sub_guideline in guideline.sub_guidelines
+      = form_tag check_sub_guideline_path(lesson_plan, sub_guideline), :id => "sub_guideline_#{ sub_guideline.id }", :class => "check_sub_guideline" do
+        = check_box_tag "sub_guideline_#{ sub_guideline.id }", "1", lesson_plan.sub_guideline_checked?(sub_guideline), :disabled => !lesson_plan.owned_by?(current_user)
+        = label_tag "sub_guideline_#{ sub_guideline.id }", sub_guideline.name.html_safe
+  %td= lesson_plan.measurable_objective_for(guideline).try(:html_safe)

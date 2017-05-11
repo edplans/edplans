@@ -1,0 +1,3 @@
+<i class="icon-bookmark" />
+<%- @name %>
+<a href="#" title="Delete" class="hide unmap-guideline">×</a>

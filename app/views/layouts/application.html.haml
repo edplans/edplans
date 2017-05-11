@@ -1,0 +1,79 @@
+!!!
+%html
+  %head
+    = javascript_include_tag 'application'
+    = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'print', :media => 'print'
+    = csrf_meta_tag
+    
+    %meta{:class => 'sendgrid'}
+      sendgrid
+
+    = yield :extra_head
+
+    %title= t 'app_name'
+
+  %body
+    .navbar.navbar-fixed-top.navbar-inverse
+      .navbar-inner{:style => "background-color: #E51937;"}
+        .container
+          = image_tag "logo.png", :alt => "Domain Planner", :style => 'float:left; margin-right:12px;'
+          = link_to t('app_name'), root_path, :class => 'brand'
+
+          - if current_user_is_admin?
+            = render :partial => 'layouts/curriculum_menu'
+            = render :partial => 'layouts/users_menu'
+
+          - if current_user_is_planner?
+            = render :partial => 'layouts/school_menu'
+            = render :partial => 'layouts/curriculum_menu_for_planner'
+            = render :partial => 'layouts/teacher_menu_for_planner'
+
+          - elsif current_user_is_teacher?
+            = render :partial => 'layouts/teacher_menu'
+
+          - if current_user
+            = render :partial => 'layouts/about_menu'
+            
+          %ul.nav.pull-right
+            - if current_user
+              %li= link_to current_user.name_or_email, me_path
+              %li= link_to("Sign Out", sign_out_path)
+            - else
+              %li= link_to("Sign In", sign_in_path)
+
+    .container.main-content{:style => 'margin-top: 100px;'}
+      - unless flash.empty?
+        .row
+          .span12= render :partial => 'layouts/flash', :locals => { :flash => flash }
+
+      = yield :layout
+
+      - if Rails.env.production?
+        :javascript
+          (function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/GXlrEpP8UT8Yy4hygIFg.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()
+
+          UserVoice = window.UserVoice || [];
+          UserVoice.push(['showTab', 'classic_widget', {
+            mode: 'full',
+            primary_color: '#cc6d00',
+            link_color: '#007dbf',
+            default_mode: 'support',
+            forum_id: 193404,
+            support_tab_name: 'Get help',
+            feedback_tab_name: 'Give feedback',
+            tab_label: 'help & feedback',
+            tab_color: '#cc6d00',
+            tab_position: 'bottom-right',
+            tab_inverted: false
+            }]);
+
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-39187970-1']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();

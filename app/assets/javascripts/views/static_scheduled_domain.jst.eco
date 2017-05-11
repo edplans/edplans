@@ -1,0 +1,1 @@
+<a href="/my_school/curriculum/school_years/<%= window.schoolYearId %>/domain_map/<%= @domain_id %>"><%= @abbreviated_domain_name %></a>

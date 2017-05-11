@@ -1,0 +1,40 @@
+.row
+  .span12
+    %h2 All Current Standards
+
+    %p
+      %strong Please note: This is the main database of the Core Knowledge online curriculum. Any changes you make here will affect all schools and all teachers.
+
+    %p
+      ELA/Literacy and Math standards are Copyright NGA Center and CCSSO and are used
+      here by permission.
+
+    %p= link_to "Add New Standard", new_standard_path
+
+    %table.table.table-bordered
+      %tr
+        %th Subject
+        %th CK Order
+        %th CK Code
+        %th CK Align Code
+        %th Strand Code
+        %th Strand/Domain
+        %th Category/Cluster
+        %th Standard
+        %th
+        %th
+
+      - for standard in @standards
+        %tr
+          %td= standard.subject
+          %td= standard.position
+          %td= link_to standard.ck_code, standard_path(:ck_code => standard.ck_code, :format => :html)
+          %td= standard.ck_align
+          %td= standard.strand_code
+          %td= standard.strand
+          %td= standard.category
+          %td= standard.text.html_safe
+          %td
+            = link_to "Edit", edit_standard_path(standard), :class => 'btn btn-primary'
+          %td
+            = button_to "Delete", standard_path(standard), :method => :delete, :class => 'btn btn-danger', :data => { :confirm => "Are you sure you want to delete this standard (#{ standard.ck_code })" }

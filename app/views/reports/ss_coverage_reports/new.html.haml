@@ -1,0 +1,24 @@
+.row
+  .span6.offset3
+    %h3 New CK Sequence Planning Report
+
+    = form_tag ss_coverage_report_path, :method => :get, :class => 'form form-horizontal' do
+
+      = render :partial => 'reports/school_years', :locals => { :school_years => @school.school_years }
+
+      .control-group
+        = label_tag "report[subject_id]", "Subject", :class => 'control-label'
+        .controls= select_tag "report[subject_id]", options_for_select(@school.subjects_taught.map {|s| [s.name, s.id]})
+
+      .control-group
+        = label_tag "report[include_only]", "Show", :class => 'control-label'
+        .controls= select_tag "report[include_only]", options_for_select([["Planned & Unplanned Sequence Content", nil], ["Planned Sequence Content", "planned"], ["Unplanned Sequence Content", "unplanned"]])
+
+      .control-group
+        = label_tag "report[grade]", "Grade", :class => 'control-label'
+        .controls= select_tag "report[grade]", options_for_select({"All" => nil}.merge(@school.grades_with_translations.invert))
+
+      = render :partial => 'reports/format_choice'
+
+      .control-group
+        .controls= submit_tag "Prepare"

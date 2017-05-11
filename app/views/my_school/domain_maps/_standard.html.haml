@@ -1,0 +1,6 @@
+%li.standard.hide{:data => { 'standard-id' => standard.id }}
+  %a{:data => { :title => standard.ck_code, :content => standard.text, :placement => 'left', :html => "true" }, :rel => 'popover', :href => '#'}
+    = standard.ck_code
+  = standard.short_text
+  - if standard.school_id.present?
+    = link_to "×", custom_standard_path(standard), :method => :delete, :data => { :confirm => "Delete this standard?" }

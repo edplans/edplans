@@ -1,0 +1,23 @@
+.row
+  .span8.offset2
+    = form_for @planner, :url => my_school_planner_invitations_path, :html => { :class => 'form-horizontal well' } do |f|
+
+      %fieldset
+        %legend= "Invite New Planner"
+
+        .control-group
+          = f.label :email, "Email Address", :class => 'control-label'
+          .controls= f.email_field :email
+
+        .control-group
+          = f.label :first_name, "First Name", :class => 'control-label'
+          .controls
+            = f.text_field :first_name, :placeholder => "First Name"
+
+        .control-group
+          = f.label :last_name, "Last Name", :class => 'control-label'
+          .controls
+            = f.text_field :last_name, :placeholder => "Last Name"
+
+        .control-group
+          .controls= f.submit "Invite", :class => 'btn btn-primary'

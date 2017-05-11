@@ -1,0 +1,32 @@
+.row
+  .span5
+    = form_for @school_year, :html => { :class => 'horizontal-form' } do |f|
+      
+      %fieldset
+        %legend
+          %strong New School Year
+      
+        .control-group
+          = f.label :start_date, "School Year", :class => 'control-label'
+          .controls
+
+            %p.help-block First day for students
+
+            .input-append.date{'data-date' => Date.today, 'data-date-format' => 'mm/dd/yyyy'}
+              = f.text_field :start_date, :size => '16', :class => 'span2'
+              %span.add-on
+                %i.icon-th
+
+            %p.help-block Last day for students
+
+            .input-append.date{'data-date' => Date.today + 1, 'data-date-format' => 'mm/dd/yyyy'}
+              = f.text_field :end_date, :size => '16', :class => 'span2'
+              %span.add-on
+                %i.icon-th
+
+        .control-group
+          = f.label :name
+          .controls= f.text_field :name, :placeholder => "E.g. Summer School #{ Date.today.year + 1 }"
+              
+        .control-group
+          .controls= f.submit "Create", :class => 'btn btn-primary'

@@ -1,0 +1,6 @@
+%li.hide{:class => highlight_if_domain_applicable(guideline, @domain)}
+  %span.guideline{:data => { :guideline_id => guideline.id, :standards => guideline.standard_applications.map(&:standard_id).to_json, :draggable_text => guideline.abbreviated_text }, :class => "#{ mapped_if_guideline_mapped(guideline, @domain_map) } #{ 'custom' if guideline.school_id.present? }" }
+    %i.icon-bookmark{:title => "#{ 'Custom Guideline' if guideline.custom? }"}
+    = guideline.name.html_safe
+    - if guideline.custom?
+      = link_to "&times;".html_safe, custom_guideline_path(guideline), :method => :delete, :title => "Delete", :class => 'delete-custom-guideline'

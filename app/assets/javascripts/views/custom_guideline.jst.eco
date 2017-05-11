@@ -1,0 +1,6 @@
+<span class="guideline custom" data-guideline-id="<%= @id %>" data-standards="[]" data-draggable-text="<%= @abbreviated_text %>">
+  <i class="icon-bookmark" title="Custom Guideline"></i>
+  <%= @name %>
+  <a href="/my_school/guidelines/<%= @id %>" title="Delete"
+  class="delete-custom-guideline">&times;</a>
+</span>

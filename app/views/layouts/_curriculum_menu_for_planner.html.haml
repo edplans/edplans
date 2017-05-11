@@ -1,0 +1,11 @@
+%ul.nav
+  %li.dropdown
+    = link_to "Planner", '#', :class => 'dropdown-toggle', :data => { :toggle => 'dropdown' }
+    %ul.dropdown-menu
+      %li.dropdown-submenu
+        = link_to "Plan Curriculum", "#"
+        %ul.dropdown-menu
+          - for grade in current_user.school.grades
+            %li= link_to School.grade_name_for(grade), plan_curriculum_path(:grade => grade)
+      %li= link_to "View Domains", domains_path
+      %li= link_to "Reports", reports_path

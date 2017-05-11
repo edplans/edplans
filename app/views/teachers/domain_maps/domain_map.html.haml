@@ -1,0 +1,117 @@
+.row
+  .span8.offset2
+
+    %h2= "Map: #{ @domain_map.domain.name } / #{ @domain_map.domain.grade_name } / #{ @domain_map.school_year.name }"
+
+    - for scheduled_domain in @domain_map.scheduled_domains
+      %h4= "Suggested teaching days for #{ scheduled_domain.subject.name }: #{ scheduled_domain.days }"
+
+    %h4#print
+      %a{:href => "javascript:window.print();"}
+        %i.icon-print
+        Print
+
+    %h4#back-to-curriculum
+      %a{:href => show_curriculum_path(:grade => @domain_map.domain.grade, :school_year_id => @school_year.id, :anchor => persisted_month_fragment(@school_year.id))}
+        %i.icon-calendar
+        Back to Curriculum Plan
+
+    %table.table.table-bordered.domain-map
+      %tr
+        %th Core Knowledge Content Guidelines
+        %th Standards
+
+      %tr
+        %td{:width => '300px;'}
+          %ul.curriculum.unstyled
+            = render :collection => @domain_map.guidelines, :partial => 'guideline'
+        %td{:width => '300px;'}
+          %ul.state-standards.unstyled
+            = render :collection => @domain_map.included_standards, :partial => 'standard'
+
+      %tr
+        %th{:colspan => 2} Language Arts Skills
+
+      %tr
+        %th Core Knowledge Skill Guidelines
+        %th Standards
+
+      %tr
+        %td
+          %ul.curriculum.unstyled
+            = render :collection => @domain_map.skills_guidelines, :partial => 'guideline'
+        %td
+          %ul.state-standards.unstyled
+            = render :collection => @domain_map.included_skills_standards, :partial => 'standard'
+
+      %tr
+        %th Prior Knowledge
+        %th Future Knowledge
+
+      %tr
+        %td#prior-knowledge
+          %ul.unstyled.knowledge-connections
+            = render :collection => @domain_map.prior_knowledge_connections, :partial => 'knowledge_connection', :locals => { :omitted_connections => [] }
+        %td#future-knowledge
+          %ul.unstyled.knowledge-connections
+            = render :collection => @domain_map.future_knowledge_connections, :partial => 'knowledge_connection', :locals => { :omitted_connections => [] }
+
+      %tr
+        %th{:colspan => 2} Cross-Curricular Links
+
+      %tr
+        %td#cross-curricular{:colspan => 2}
+          %ul.unstyled.knowledge-connections
+            = render :collection => @domain_map.cross_curriculum_connections, :partial => 'knowledge_connection', :locals => { :omitted_connections => @domain_map.omitted_cross_knowledge }
+
+      %tr
+        %th{:colspan => 2} Domain Vocabulary
+
+      %tr
+        %td#domain-vocabulary{:colspan => 2}
+          %table.table
+            %tr
+              - @domain_map.vocabulary.in_groups_of([(@domain_map.vocabulary.size / 4).to_i, 1].max, false) do |group|
+                %td{:style => "border: 0px;"}
+                  %ul.unstyled.domain-vocabulary
+                    - for word in group
+                      %li
+                        = word
+
+      %tr
+        %th{:colspan => 2} Units & Lesson Plans
+
+      %tr.new-domain-unit
+        %th= link_to "New Unit", "#new-domain-unit", :class => 'btn btn-primary', :data => { :toggle => 'modal' }
+        %th
+
+= content_for :extra_head do
+  = javascript_tag "var DOMAIN_ID = #{ @domain.id };"
+  = javascript_tag "var initial_domain_units = #{ @domain_units.to_json };"
+  = javascript_tag "var subjects = #{ CurriculumNode.roots.to_json };"
+
+  .modal.hide.fade#new-domain-unit
+    .modal-header
+      %a{:class => 'close', 'data-dismiss' => 'modal'} ×
+      %h3 New Unit
+
+    = form_for :domain_unit, :url => domain_units_path(:domain_id => @domain.id), :html => { :class => 'form form-horizontal' } do |f|
+      .modal-body
+
+        .control-group
+          = f.label :name, "Name", :class => 'control-label'
+          .controls
+            = f.text_field :name
+
+        .control-group
+          = f.label :subject, "Subject", :class => 'control-label'
+          .controls
+            = f.collection_select :subject_id, CurriculumNode.roots, :id, :name
+
+      .modal-footer
+
+        .control-group
+          .controls= f.submit "Create", :class => 'btn btn-primary'
+
+= stylesheet_link_tag 'print_domain_maps', :media => 'print'
+= javascript_tag "window.schoolYearId = #{ @school_year.id };"

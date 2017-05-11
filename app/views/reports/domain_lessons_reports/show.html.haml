@@ -1,0 +1,35 @@
+.row
+  .span12
+
+    %h3= "#{ @report.school.name } #{ @report.school_year.short_form }"
+
+    %h3 Lessons Report
+
+    - for domain_map in @report.domain_maps
+
+      %h3= domain_map.domain.name
+
+      %table.table.table-bordered
+
+        %thead
+          %tr
+            %th Core Knowledge Guideline
+            %th Unit
+            %th Lesson
+            %th Lesson Creator
+
+        %tbody
+          - for curriculum_node in @report.curriculum_nodes_for(domain_map)
+            %tr
+              %th{:colspan => 4}= curriculum_node.name_with_prefix
+
+            - for guideline in @report.guidelines_for(curriculum_node, domain_map)
+              - @report.lesson_plans_for_domain_map_and_guideline(domain_map, guideline).each_with_index do |lesson_plan, i|
+
+                %tr
+                  %td= guideline.name.html_safe unless i > 0
+                  %td= lesson_plan.domain_unit.name
+                  %td= link_to lesson_plan.name, domain_unit_lesson_plan_path(lesson_plan.domain_map.domain, lesson_plan.domain_unit, lesson_plan)
+                  %td= lesson_plan.teacher.name
+
+= render :partial => 'reports/footer'

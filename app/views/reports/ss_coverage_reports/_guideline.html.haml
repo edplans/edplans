@@ -1,0 +1,21 @@
+- if @report.guideline_covered?(guideline) && @report.include_covered?
+  - @report.domains_for(guideline).sort {|a,b| @report.start_week_for(a) <=> @report.start_week_for(b)}.each_with_index do |domain, i|
+    %tr
+      %td
+        - if i == 0
+          - if guideline.custom?
+            %i.icon-bookmark.custom
+          = guideline.name.html_safe
+      %td ✓
+      %td{:class => class_name_for_domain(domain)}= domain.name
+      %td= domain.grade
+      %td= @report.start_week_for(domain)
+
+- elsif @report.include_uncovered? && !@report.guideline_covered?(guideline)
+  %tr
+    %td.uncovered
+      - if guideline.custom?
+        %i.icon-bookmark.custom
+      = guideline.name.html_safe
+    %td X
+    %td{:colspan => 3}

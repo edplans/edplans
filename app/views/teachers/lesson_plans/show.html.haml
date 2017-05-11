@@ -1,0 +1,142 @@
+.row
+  .span9.offset2.well
+    %h3
+      %i.icon-list-alt.blue
+      = "Lesson Plan: #{ @lesson_plan.name }"
+      - if @lesson_plan.teacher == current_user
+        = link_to "<i class='icon-pencil'></i>".html_safe, edit_domain_unit_lesson_plan_path(@domain, @domain_unit, @lesson_plan, :school_year_id => @school_year.id), :class => 'edit-lesson-plan'
+      %a{:href => domain_unit_lesson_plan_path(@domain, @lesson_plan.domain_unit, @lesson_plan, :format => :pdf)}
+        %i.icon-print
+
+    %dl.lesson-plan-details
+      %div
+        %dt
+          %i.icon-user
+          Creator
+        %dd= @lesson_plan.teacher.name
+      %div
+        %dt
+          %i.icon-calendar
+          Created On
+        %dd= @lesson_plan.created_at.strftime("%b %e, %Y").gsub(/\s+/, ' ')
+      %div
+        %dt
+          %i.icon-sitemap
+          Map
+        %dd
+          = @lesson_plan.domain_unit.domain_map.domain.name
+          = "(#{ @lesson_plan.domain_unit.domain_map.domain.grade_name })"
+          %a{:href => show_domain_map_path(@domain_map.school_year, @domain.id)}
+            %i.icon-external-link
+      %div
+        %dt
+          %i.icon-folder-close
+          Unit Title
+        %dd= @lesson_plan.domain_unit.name
+
+      %div
+        %dt
+          %i.icon-folder-open
+          Other Lesson Plans
+        %dd
+          %ul
+            - for lesson_plan in (@lesson_plan.domain_unit.lesson_plans - [@lesson_plan])
+              %li= link_to lesson_plan.name, domain_unit_lesson_plan_path(@domain, @domain_unit, lesson_plan)
+              
+= render :partial => 'field', :collection => [:essential_understanding ], :locals => { :lesson_plan => @lesson_plan }
+
+- unless @lesson_plan.subject_guidelines.empty?
+  .row
+    .span2
+      %h4 Subject Guidelines
+    .span9
+      %table.table.table-bordered
+        %tr
+          %th{:width => '34%'} Guidelines
+          %th{:width => '33%'} Details
+          %th{:width => '33%'} Measurable Objectives
+        = render :partial => 'guideline', :collection => @lesson_plan.subject_guidelines, :locals => { :lesson_plan => @lesson_plan }
+
+- unless @lesson_plan.skills_guidelines.empty?
+  .row
+    .span2
+      %h4 Skills Guidelines
+    .span9
+    .span9
+      %table.table.table-bordered
+        %tr
+          %th{:width => '34%'} Guidelines
+          %th{:width => '33%'} Details
+          %th{:width => '33%'} Measurable Objectives
+        = render :partial => 'guideline', :collection => @lesson_plan.skills_guidelines, :locals => { :lesson_plan => @lesson_plan }
+
+= render :partial => 'field', :collection => [ :ongoing_assessment, :criteria_for_success ], :locals => { :lesson_plan => @lesson_plan }
+
+.row
+  .span6
+    %h3 Activities & Procedures
+    
+= render :partial => 'field', :collection => [ :read_aloud_resources, :vocabulary_tier_2_words, :procedures, :extensions ], :locals => { :lesson_plan => @lesson_plan }
+    
+.row
+  .span6
+    %h3 Additional Information
+
+= render :partial => 'field', :collection => [ :support_and_enrichment, :materials_and_resources ], :locals => { :lesson_plan => @lesson_plan }
+
+- if @lesson_plan.teacher == current_user && @lesson_plan.personal_notes.present?
+  .row
+    .span2
+      %h4 Personal Notes
+    .span9.well= @lesson_plan.personal_notes.try(:html_safe)
+
+- unless @lesson_plan.team_notes.blank?
+  .row
+    .span2
+      %h4 Creator's Notes to Other Users
+    .span9.well= @lesson_plan.team_notes.html_safe
+
+.row
+  .span2
+    %h4 Public Notes
+  .span9.well
+    = form_for @lesson_plan, :url => public_notes_domain_unit_lesson_plan_path(@domain, @domain_unit, @lesson_plan) do |f|
+      = f.text_area :public_notes, :placeholder => "Notes made here will be visible to all teachers.", :class => 'wysiwyg'
+      %p= f.submit 'Save Changes', :class => 'btn btn-primary'
+    %p.public-notes= @lesson_plan.public_notes.try(:html_safe)
+    
+.row.attached-files
+  .span2
+    %a#attached-files= ""
+    %h4 Attached Files
+  .span9.well
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th File
+          %th
+      %tbody
+        - for file in @lesson_plan.lesson_plan_files do
+          %tr
+            %td= link_to file.attachment_file_name, file.attachment.url
+            %td{:style => 'text-align:center;'}= button_to "Delete", lesson_plan_file_path(@lesson_plan, file), :method => :delete, :class => 'btn btn-danger' if @lesson_plan.teacher == current_user
+
+    - if @lesson_plan.teacher == current_user
+      = form_for :lesson_plan_file, :url => lesson_plan_files_path(@lesson_plan) do |f|
+        %p
+          = f.label :attachment, "Attach New File"
+          = f.file_field :attachment
+        %p
+          = f.submit "Upload", :class => 'btn btn-primary'
+.row
+  .span9.offset2{:style => 'height:100px;'}
+    %a{:href => domain_unit_lesson_plan_path(@domain, @lesson_plan.domain_unit, @lesson_plan, :format => :pdf), :style => 'float: right; font-size: 24px;'}
+      %i.icon-print
+    %p= link_to "Back to #{ @lesson_plan.domain_unit.domain_map.domain.name }", show_domain_map_path(@school_year, @lesson_plan.domain_unit.domain_map.domain_id), :class => 'return'
+
+- if Rails.env.production?
+  = content_for :extra_head do
+    :javascript
+      (function (e, t) { if (!t.__SV) { window.calq = t; var n = e.createElement("script"); n.type = "text/javascript"; n.src = "http" + ("https:" === e.location.protocol ? "s" : "") + '://api.calq.io/lib/js/core-1.0.js'; n.async = !0; var r = e.getElementsByTagName("script")[0]; r.parentNode.insertBefore(n, r); t.init = function (e, o) { if (t.writeKey) return; t.writeKey = e; t._initOptions = o; t._execQueue = []; m = "action.track action.trackSale action.trackHTMLLink action.trackPageView action.setGlobalProperty user.profile user.identify user.clear".split(" "); for (var n = 0; n < m.length; n++) { var f = function () { var r = m[n]; var s = function () { t._execQueue.push({ m: r, args: arguments }) }; var i = r.split("."); if (i.length == 2) { if (!t[i[0]]) { t[i[0]] = [] } t[i[0]][i[1]] = s } else { t[r] = s } }(); } }; t.__SV = 1 } })(document, window.calq || []);
+      calq.init("ad693faadaa9adcf33384bebc063fab2");
+      calq.action.track("View Lesson Plan", { "LessonPlanId": #{ @lesson_plan.id } });

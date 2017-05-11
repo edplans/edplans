@@ -1,0 +1,40 @@
+.row
+  .span12
+    %h1 Lesson Plan Activity
+
+    %table.table.table-bordered
+      %tr
+        %th Since
+        %th Lesson Plans Created
+        %th Lesson Plans Updated
+
+      %tr
+        %td
+          %form{:method => 'get'}
+            %input{:type => 'date', :name => 'since', :max => Date.today, :value => @since.strftime('%Y-%m-%d')}
+            %br
+            %input{:type => 'submit', :value => 'Change', :class => 'btn btn-primary'}
+        %td= @created_count
+        %td= @updated_count
+
+    %table.table.table-bordered
+      %tr
+        %th Date
+        %th Owner
+        %th Title
+        %th Domain
+        %th New Or Cloned
+
+      - for lesson_plan in @lesson_plans
+        %tr
+          %td
+            - if lesson_plan.created_at == lesson_plan.updated_at
+              = "Created #{ lesson_plan.updated_at }"
+            - else
+              = "Updated #{ lesson_plan.updated_at }"
+          %td= mail_to lesson_plan.teacher.email
+          %td= lesson_plan.name
+          %td= lesson_plan.domain_map.domain.name
+          %td= lesson_plan.copied? ? "Cloned" : "New"
+
+    %h4= will_paginate @lesson_plans

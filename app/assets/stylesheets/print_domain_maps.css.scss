@@ -1,0 +1,33 @@
+table.domain-map {
+    border: 1px solid black;
+    th {
+        width: 50%;
+    }
+    th, td {
+        border: 1px solid black;
+    }
+}
+#curriculum-container, #standards-container {
+    display: none;
+}
+#new-custom-standard, #new-custom-guideline {
+    display: none;
+}
+h4#back-to-curriculum {
+    display: none;
+}
+.hide {
+    display: none;
+}
+a, a:visited {
+    color: black;
+}
+.btn {
+    display: none;
+}
+li.new-lesson-plan {
+    display: none;
+}
+h4#print {
+    display: none;
+}

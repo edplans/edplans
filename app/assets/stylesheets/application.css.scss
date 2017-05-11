@@ -1,0 +1,109 @@
+/*
+ *= require fullcalendar
+ */
+
+@import "bootstrap-wysihtml5";
+
+// Twitter Bootstrap: Don't import icons
+// Core variables and mixins
+@import "twitter/bootstrap/variables"; // Modify this for custom colors, font-sizes, etc
+@import "twitter/bootstrap/mixins";
+
+// CSS Reset
+@import "twitter/bootstrap/reset";
+
+// Grid system and page structure
+@import "twitter/bootstrap/scaffolding";
+@import "twitter/bootstrap/grid";
+@import "twitter/bootstrap/layouts";
+
+// Base CSS
+@import "twitter/bootstrap/type";
+@import "twitter/bootstrap/code";
+@import "twitter/bootstrap/forms";
+@import "twitter/bootstrap/tables";
+
+// Components: common
+@import "twitter/bootstrap/dropdowns";
+@import "twitter/bootstrap/wells";
+@import "twitter/bootstrap/component-animations";
+@import "twitter/bootstrap/close";
+
+// Components: Buttons & Alerts
+@import "twitter/bootstrap/buttons";
+@import "twitter/bootstrap/button-groups";
+@import "twitter/bootstrap/alerts"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
+
+// Components: Nav
+@import "twitter/bootstrap/navs";
+@import "twitter/bootstrap/navbar";
+@import "twitter/bootstrap/breadcrumbs";
+@import "twitter/bootstrap/pagination";
+@import "twitter/bootstrap/pager";
+
+// Components: Popovers
+@import "twitter/bootstrap/modals";
+@import "twitter/bootstrap/tooltip";
+@import "twitter/bootstrap/popovers";
+
+// Components: Misc
+@import "twitter/bootstrap/thumbnails";
+@import "twitter/bootstrap/progress-bars";
+@import "twitter/bootstrap/accordion";
+@import "twitter/bootstrap/carousel";
+@import "twitter/bootstrap/hero-unit";
+
+// Utility classes
+@import "twitter/bootstrap/utilities"; // Has to be last to override when necessary
+
+$ckRed: #e51937;
+$blue: #1964b0;
+$purple: #72417e;
+
+@import "font-awesome";
+@import "my_school";
+@import "scheduled_domains";
+@import "my_school/domain_maps";
+@import "admin/guidelines";
+@import "teachers/domain_maps";
+@import "teachers/lesson_plans";
+@import "reports";
+@import "guidelines";
+@import "teachers/calendar";
+
+footer {
+  position: fixed; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  margin: 10px;
+}
+
+container.main-content {
+  padding-bottom: 60px;
+}
+
+.navbar-inverse .navbar-inner {
+  filter: none;
+  background-color: $ckRed;
+  background-image: linear-gradient(to bottom, $ckRed, ($ckRed - #111));
+  background-image: -moz-linear-gradient(top, $ckRed, ($ckRed - #111));
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($ckRed), to(($ckRed - #111)));
+  min-height: 55px;
+  padding-top: 8px;
+  border-color: $ckRed - #333;
+}
+
+.navbar-inverse .brand, .navbar-inverse .nav > li > a {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.navbar-inverse .brand:hover, .navbar-inverse .nav > li > a:hover {
+  color: #999999;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+a, a:visited {
+  color: #004890;
+}

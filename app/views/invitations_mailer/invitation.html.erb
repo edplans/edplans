@@ -1,0 +1,7 @@
+<h1>Welcome to the <%= t('app_name') %>!</h1>
+
+<p>You have been invited to use the domain planner; to accept your invitation please <%= link_to "click here", accept_invitation_url(:token => @user.invitation_token) %> or paste the following URL into your web browser:</p>
+
+<p><%= accept_invitation_url(:token => @user.invitation_token)%></p>
+
+<p>Thank you!</p>

@@ -1,0 +1,45 @@
+td.custom-course-unit {
+  color: $pink;
+}
+
+td.scheduled-domain {
+  color: white;
+  background-color: $blue;
+  &.custom-course-unit {
+    border: 2px solid ($purple + #333);
+    background-color: $purple;
+  }
+}
+
+span.domain-tag {
+  color: #37CFFF;
+}
+
+td.domain-interdisciplinary, span.domain-interdisciplinary {
+//  color: #bd362f;
+  font-style: italic;
+}
+
+td.domain-custom, span.domain-custom {
+  text-decoration: underline;
+}
+
+table.full-domain-report {
+    span.scheduled-domain {
+        display: block;
+        margin-bottom: 1em;
+    }
+}
+
+tr.top-grade-row td {
+    border-top: 2px solid #333;
+}
+
+th.week-title {
+    h3 { display: inline; }
+}
+
+i.icon-bookmark.custom {
+    color: #F95E04;
+}
+

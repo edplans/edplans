@@ -1,0 +1,5 @@
+- unless lesson_plan.send(field).blank?
+  .row
+    .span2
+      %h4= LessonPlan.label_text_for(field)
+    .span9.well= lesson_plan.send(field).html_safe

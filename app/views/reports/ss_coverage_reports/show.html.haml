@@ -1,0 +1,33 @@
+.row
+  .span12
+
+    %h3= @report.school_year.short_form
+
+    %h3= @report.school.name
+
+    %h3  CK Sequence Planning Report
+
+    %h3= @report.subject.name
+
+    %table.table
+
+      %thead
+
+        %tr
+          %th{:width => "35%"} Sequence Content
+          %th Planned?
+          %th Domains & Topics
+          %th Grade Level
+          %th Start Week
+
+      %tbody
+        - for grade in @report.grades
+          %tr
+            %th{:colspan => 5}
+              %h3= School.grade_name_for(grade)
+
+          = render :partial => 'curriculum_node', :collection => @report.subject.children_for_grade(grade)
+
+
+= render :partial => 'reports/key'
+= render :partial => 'reports/footer'

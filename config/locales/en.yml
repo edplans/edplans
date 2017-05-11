@@ -1,0 +1,11 @@
+en:
+  app_name: "Domain Planner"
+  full_app_name: "Core Knowledge Domain Planner"
+  welcome: 
+    index: 
+      message: "Welcome to the Domain Planner"
+    welcome_back:
+      message: "Welcome Back to the Domain Planner"
+  reports:
+    footer:
+      copyright: "Powered by Core Knowledge \u00AE Domain Planner"

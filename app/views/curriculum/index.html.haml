@@ -1,0 +1,14 @@
+.row
+  .span12
+    %h1 Current Curriculum
+    %p
+      %strong Please note:
+      This is the main database of the Core Knowledge online curriculum. Any changes you make here will affect all schools and all teachers.
+
+    %table.table.table-bordered
+      %tr
+        %th Subject Area
+        %th Notes
+      = render :partial => 'subject_area', :collection => CurriculumNode.roots.order('position asc')
+      %tr
+        %th{:colspan => 2}= link_to "New Subject Area", new_curriculum_node_path

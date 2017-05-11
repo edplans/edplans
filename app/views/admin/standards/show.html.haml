@@ -1,0 +1,27 @@
+.row
+  .span12
+    
+    %h2= "Standard #{ @standard.ck_code }"
+
+    %table.table
+      %tr
+        %th Subject	
+        %th CK Order
+        %th CK Code
+        %th CK Align Code
+        %th Strand Code 
+        %th Strand/Domain
+        %th Category/Cluster
+        %th Standard
+
+      %tr
+        %td= @standard.subject
+        %td= @standard.position
+        %td= @standard.ck_code
+        %td= @standard.ck_align
+        %td= @standard.strand_code
+        %td= @standard.strand
+        %td= @standard.category
+        %td= @standard.text
+
+    %p= link_to "Back to Standards", standards_path

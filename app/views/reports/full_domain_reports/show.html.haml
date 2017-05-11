@@ -1,0 +1,36 @@
+.row
+  .span12
+
+    %h3= "#{ @report.school.name } - #{ @report.school_year.short_form }"
+
+    %h3 School-Wide Curriculum Plan
+
+
+    - for month in @report.months
+      %table.table.full-domain-report
+
+        %tr
+          %th{:rowspan => month.weeks.size + 1, :width => '15'}
+            %h4= month.name
+
+          %th{:width => '4%'} Week
+          - for grade in @report.grades
+            %th{:width => '9%'}= School.grade_name_for(grade)
+
+          - for week in month.weeks
+            %tr
+              %th= week.index
+
+              - for grade in @report.school.grades
+                %td
+                  - for scheduled_domain in @report.scheduled_domains_for_grade_and_week(grade, week)
+                    %span{:class => "scheduled-domain #{ class_name_for_scheduled_domain(scheduled_domain) }"}
+                      - if week.index == scheduled_domain.start_week
+                        = "#{ scheduled_domain.domain.name } (#{ pluralize(scheduled_domain.weeks, 'Week') })"
+                        %br/
+                      - elsif week == month.weeks.first
+                        = "#{ scheduled_domain.domain.name } (Continued)"
+                        %br/
+
+= render :partial => 'reports/key'
+= render :partial => 'reports/footer'
